@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import dbConnect from '../../../utilities/dbConnect';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -22,6 +23,7 @@ export default NextAuth({
     })
     // ...add more providers here
   ],
+  adapter: MongoDBAdapter(dbConnect),
   pages: {
     signIn: '/login'
   },
