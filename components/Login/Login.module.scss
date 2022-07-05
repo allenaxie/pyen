@@ -1,0 +1,79 @@
+.container {
+    padding: 10rem;
+    position: relative;
+    height: 100vh;
+    background: linear-gradient( rgba(13, 13, 13, 0.742), rgba(53, 53, 53, 0.722)), url('/futuristic-background.jpeg');
+    background-size: cover;
+
+    @media screen and (max-width:700px) {
+        padding: 7rem;
+    }
+
+    @media screen and (max-width:550px) {
+        padding: 7rem 4rem;
+    }
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.col1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background: #fff;
+
+    // google
+    & > .providerBtn:first-of-type {
+        button {
+            background-color: #fff;
+        }
+    }
+    
+    // github
+    & > .providerBtn:nth-of-type(2) {
+        button {
+            background-color: #000;
+            color: #fff;
+        }
+    }
+}
+
+.title {
+    background: linear-gradient(to right, red, purple);
+    padding-bottom: 4px;
+    margin-bottom: 1rem;
+    width: 6rem;
+    text-align: center;
+
+    h1 {
+        background-color: #fff;
+        margin-bottom: 0;
+    }
+}
+
+.providerBtn {
+    button {
+        font-size: 1.5rem;
+        padding: .5rem;
+        margin: 1rem 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+    
+        cursor: pointer;
+
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.266);
+
+        svg {
+            margin-left: .5rem;
+            font-size: 2rem;
+        }
+    }
+}
