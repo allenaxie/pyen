@@ -32,7 +32,7 @@ const Login = ({ providers }: any) => {
           <Col
           xs={{ span: 24 }}
           lg={{ span: 16, offset:4 }}
-          className={classes.col1}
+          className={classes.col}
           >
             <div className={classes.title}>
               <h1>Login</h1>

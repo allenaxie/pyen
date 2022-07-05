@@ -20,13 +20,18 @@
     left: 0;
 }
 
-.col1 {
+.col {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center ;
     flex-direction: column;
 
     background: #fff;
+
+    button {
+        display: flex;
+        align-items: center !important;
+    }
 
     // google
     & > .providerBtn:first-of-type {
