@@ -1,0 +1,35 @@
+.statsContainer {
+    padding: 3rem 2rem 3rem 8rem;
+}
+
+.profileInfoContainer {
+    padding: 3rem 8rem 3rem 2rem;
+}
+
+.accountListContainer {
+    border: 1px solid #000;
+    
+    .accountListHeader {
+        display: flex;
+        padding: 1rem;
+
+        .accountListHeaderTitle {
+            display: flex;
+            justify-content: center;
+        }
+
+        .accountListAddBtn {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    .accountsList {
+        padding: 1rem 1.5rem;
+
+        .accountsListItem {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
