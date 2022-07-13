@@ -5,6 +5,11 @@ import { Row, Col } from 'antd';
 
 const Profile = () => {
   const { data: session } = useSession();
+  
+  const handleAddAccountListItem = () => {
+    console.log('add account');
+    // open modal with form
+  }
 
   return (
     <>
@@ -14,7 +19,10 @@ const Profile = () => {
           lg={{ span: 12 }}
           className={classes.statsContainer}
         >
-          <h1>Net worth:</h1>
+          <div className={classes.netWorthTitle}>
+            <h1>Net worth:</h1>
+            <span>$55,000</span>
+          </div>
           <Row>
             <Col
               xs={{ span: 24 }}
@@ -58,7 +66,9 @@ const Profile = () => {
           lg={{ span: 12 }}
           className={classes.chartContainer}
         >
-          chart
+          <div>
+            chart
+          </div>
         </Col>
         <Col
           xs={{ span: 24 }}
@@ -76,7 +86,7 @@ const Profile = () => {
               span={6}
               className={classes.accountListAddBtn}
             >
-              <button>+</button>
+              <button onClick={handleAddAccountListItem}>+</button>
             </Col>
           </Row>
           <div className={classes.accountsList}>
