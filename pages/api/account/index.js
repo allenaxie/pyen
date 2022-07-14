@@ -23,5 +23,7 @@ export default async function handler (req,res) {
             console.log(err);
             res.status(400).json({message: 'POST request failed'})
         }
+    } else {
+        res.status(400).json({message: 'Request failed'})
     }
 }
