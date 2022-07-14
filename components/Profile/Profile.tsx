@@ -1,14 +1,22 @@
 import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { Row, Col } from 'antd';
+import { Row, Col, Modal } from 'antd';
+import AddAccountForm from '../AddAccountForm/AddAccountForm';
 
 const Profile = () => {
   const { data: session } = useSession();
-  
-  const handleAddAccountListItem = () => {
+  const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
+
+  const handleAddAccountBtn = () => {
     console.log('add account');
     // open modal with form
+    setAccountFormModalVisible(true);
+  }
+
+  const onModalCancel = () => {
+    setAccountFormModalVisible(false);
   }
 
   return (
@@ -46,14 +54,14 @@ const Profile = () => {
           <Row>
             <Col
               xs={{ span: 24 }}
-              lg={{ span: 12 }}
+              lg={{ span: 18 }}
             >
               <h2>{session?.user?.name}</h2>
               <h2>{session?.user?.email}</h2>
             </Col>
             <Col
               xs={{ span: 24 }}
-              lg={{ span: 12 }}
+              lg={{ span: 6 }}
             >
               <Image src={session ? `${session?.user?.image}` : 'https://joeschmoe.io/api/v1/random'} width={100} height={100} />
             </Col>
@@ -86,7 +94,22 @@ const Profile = () => {
               span={6}
               className={classes.accountListAddBtn}
             >
-              <button onClick={handleAddAccountListItem}>+</button>
+              <button onClick={handleAddAccountBtn}>+</button>
+              <Modal
+                visible={accountFormModalVisible}
+                className={classes.accountFormModal}
+                onCancel={onModalCancel}
+                title={
+                  <div className={classes.modalHeading}>
+                    <h2>
+                      Create Account
+                    </h2>
+                  </div>
+                }
+                footer={null}
+              >
+                <AddAccountForm />
+              </Modal>
             </Col>
           </Row>
           <div className={classes.accountsList}>

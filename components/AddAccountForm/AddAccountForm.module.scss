@@ -1,0 +1,15 @@
+.formLabel {
+    font-weight: 600;
+}
+
+.submitBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :global .ant-form-item-control-input-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

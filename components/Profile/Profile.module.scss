@@ -76,3 +76,15 @@
         }
     }
 }
+
+.accountFormModal {
+
+    :global .ant-modal-body {
+        padding: 1rem;
+    }
+
+    :global .ant-modal-title div h2 {
+        margin: 0 !important;
+    }
+
+}
