@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const accountSchema = new mongoose.Schema({
+const accountItemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,4 +17,4 @@ const accountSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.models.Account || mongoose.model('Account', accountSchema);
+module.exports = mongoose.models.AccountItem || mongoose.model('AccountItem', accountItemSchema);

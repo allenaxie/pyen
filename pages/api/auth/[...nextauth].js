@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import dbConnect from '../../../utilities/dbConnect';
+import clientPromise from '../../../utilities/nextAuth-clientPromise';
+
 
 export default NextAuth({
+    adapter: MongoDBAdapter(clientPromise),
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -23,7 +27,6 @@ export default NextAuth({
     })
     // ...add more providers here
   ],
-  // adapter: MongoDBAdapter(dbConnect),
   pages: {
     signIn: '/login'
   },

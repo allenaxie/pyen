@@ -1,4 +1,4 @@
-import Account from '../../../models/account';
+import AccountItem from '../../../models/accountItem';
 import dbConnect from '../../../utilities/dbConnect';
 
 export default async function handler (req,res) {
@@ -11,7 +11,7 @@ export default async function handler (req,res) {
 
     if (method === 'PUT') {
         try {
-            const account = await Account.findByIdAndUpdate(id, req.body, {
+            const account = await AccountItem.findByIdAndUpdate(id, req.body, {
                 new: true,
                 runValidators: true,
             })
@@ -27,7 +27,7 @@ export default async function handler (req,res) {
         }
     } else if (method === 'DELETE') {
         try {
-            const accountDeleted = await Account.findOneAndDelete({ _id: id});
+            const accountDeleted = await AccountItem.findOneAndDelete({ _id: id});
             // if no account
             if (!accountDeleted) {
                 res.status(400).json({message: 'Account not found. Account can not be deleted.'})

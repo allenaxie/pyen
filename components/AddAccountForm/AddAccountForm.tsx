@@ -11,13 +11,15 @@ const AddAccountForm = (props: AddAcountFormProps) => {
 
     const {setAccountFormModalVisible} = props;
     const [isLoading, setIsLoading] = useState(false);
+    const [form] = Form.useForm();
 
     const router = useRouter();
+
 
     const handleSubmit = async (values: {}) => {
         console.log(values);
         setIsLoading(true);
-        const res = await fetch('/api/account', {
+        const res = await fetch('/api/accountItem', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -28,6 +30,8 @@ const AddAccountForm = (props: AddAcountFormProps) => {
         setIsLoading(false);
         // close modal
         setAccountFormModalVisible(false);
+        // reset form
+        form.resetFields();
         // refresh profile page
         router.push('/profile');
     }
@@ -39,6 +43,7 @@ const AddAccountForm = (props: AddAcountFormProps) => {
     return (
         <Form
             className={classes.formContainer}
+            form={form}
             name="addAccount"
             autoComplete='off'
             onFinish={handleSubmit}

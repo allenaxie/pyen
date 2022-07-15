@@ -20,7 +20,7 @@ export default ProfilePage;
 
 export async function getStaticProps(context:any) {
     // get account info
-    const res = await fetch(`${process.env.SERVER}/api/account`);
+    const res = await fetch(`${process.env.SERVER}/api/accountItem`);
     const {data} = await res.json();
     return {
         props: {
