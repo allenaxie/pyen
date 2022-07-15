@@ -122,7 +122,7 @@ const Profile = ({ accounts }: any) => {
             {accounts.map((account: { name: string, value: number }, index: number) =>
               <div className={classes.accountsListItem} key={`${account.name}-${index}`}>
                 <span>{account.name}</span>
-                <span>{account.value}</span>
+                <span>${account.value.toLocaleString()}</span>
               </div>
             )}
 
