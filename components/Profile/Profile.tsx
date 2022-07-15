@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { Row, Col, Modal } from 'antd';
 import AddAccountForm from '../AddAccountForm/AddAccountForm';
 
-const Profile = () => {
+const Profile = ({ accounts }: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
+  console.log('accounts:', accounts);
+
 
   const handleAddAccountBtn = () => {
     console.log('add account');
@@ -108,31 +110,22 @@ const Profile = () => {
                 }
                 footer={null}
               >
-                <AddAccountForm />
+                <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} />
               </Modal>
             </Col>
           </Row>
           <div className={classes.accountsList}>
-            <div className={classes.accountsListItem}>
-              <span>Account name</span>
+            <div className={classes.listTitle}>
+              <span>Name</span>
               <span>Value</span>
             </div>
-            <div className={classes.accountsListItem}>
-              <span>Account name</span>
-              <span>Value</span>
-            </div>
-            <div className={classes.accountsListItem}>
-              <span>Account name</span>
-              <span>Value</span>
-            </div>
-            <div className={classes.accountsListItem}>
-              <span>Account name</span>
-              <span>Value</span>
-            </div>
-            <div className={classes.accountsListItem}>
-              <span>Account name</span>
-              <span>Value</span>
-            </div>
+            {accounts.map((account: { name: string, value: number }, index: number) =>
+              <div className={classes.accountsListItem} key={`${account.name}-${index}`}>
+                <span>{account.name}</span>
+                <span>{account.value}</span>
+              </div>
+            )}
+
           </div>
         </Col>
       </Row>

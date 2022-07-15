@@ -1,10 +1,35 @@
 import classes from './AddAccountForm.module.scss';
 import { Form, Input, InputNumber, Button } from 'antd';
+import { Dispatch, SetStateAction, useState } from 'react';
+import {useRouter} from 'next/router';
 
-const AddAccountForm = () => {
+interface AddAcountFormProps {
+    setAccountFormModalVisible: Dispatch<SetStateAction<boolean>>
+}
 
-    const handleSubmit = (values: {}) => {
+const AddAccountForm = (props: AddAcountFormProps) => {
+
+    const {setAccountFormModalVisible} = props;
+    const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
+
+    const handleSubmit = async (values: {}) => {
         console.log(values);
+        setIsLoading(true);
+        const res = await fetch('/api/account', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values)
+        })
+        setIsLoading(false);
+        // close modal
+        setAccountFormModalVisible(false);
+        // refresh profile page
+        router.push('/profile');
     }
 
     const onFinishFailed = (errorInfo:any) => {
