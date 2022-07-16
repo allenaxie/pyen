@@ -11,6 +11,73 @@ const Navbar = () => {
     const { data: session } = useSession();
 
     const router = useRouter();
+    let menuItems = [];
+
+    session ?
+        menuItems = [
+            {
+                key: "welcome",
+                label: (
+                    <div className={classes.welcome}>
+                        <span >Welcome <span>{session?.user?.email}</span>!</span>
+                    </div>
+                ),
+            },
+            {
+                key: "profile",
+                className: `${classes.userMenuItem}`,
+                label: (
+                    <>
+                        <AiOutlineUser />
+                        <Link href="/profile">
+                            Profile
+                        </Link>
+                    </>
+                ),
+            },
+            {
+                key: "settings",
+                className: `${classes.userMenuItem}`,
+                label: (
+                    <>
+                        <IoSettingsOutline />
+                        <span>
+                            Settings
+                        </span>
+                    </>
+                )
+            },
+            {
+                key: "signOut",
+                onClick: () => signOut({
+                    callbackUrl: `${window.location.origin}/login`
+                }),
+                className: `${classes.userMenuItem}`,
+                label: (
+                    <>
+                        <HiOutlineLogout />
+                        <span>
+                            Sign Out
+                        </span>
+                    </>
+                )
+            }
+        ]
+        :
+        menuItems = [
+            {
+                key: "login",
+                className: `${classes.userMenuItem}`,
+                label: (
+                    <>
+                        <HiOutlineLogout />
+                        <Link href="/login">
+                            Log In
+                        </Link>
+                    </>
+                )
+            }
+        ]
 
     return (
         <div className={classes.container}>
@@ -25,49 +92,7 @@ const Navbar = () => {
                 <Dropdown
                     overlay={
                         <>
-                            <Menu className={classes.menu}>
-                                {session ?
-                                    <>
-                                        <div className={classes.welcome}>
-                                            <span >Welcome <span>{session?.user?.email}</span>!</span>
-                                        </div>
-                                        <Menu.Item key="profile" className={classes.userMenuItem}>
-                                            <AiOutlineUser />
-                                            <Link href="/profile">
-                                                Profile
-                                            </Link>
-                                        </Menu.Item>
-                                        <Menu.Item key="settings" className={classes.userMenuItem}>
-                                            <IoSettingsOutline />
-                                            <span>
-                                                Settings
-                                            </span>
-                                        </Menu.Item>
-                                        <Menu.Item
-                                                key="signOut"
-                                                onClick={() => signOut({
-                                                    callbackUrl: `${window.location.origin}/login`
-                                                })}
-                                                className={classes.userMenuItem}
-                                            >
-                                                <HiOutlineLogout/>
-                                                <span>
-                                                    Sign Out
-                                                </span>
-                                            </Menu.Item>
-                                    </>
-                                    :
-                                    <Menu.Item
-                                        key="login"
-                                        className={classes.userMenuItem}
-                                    >
-                                        <HiOutlineLogout />
-                                        <Link href="/login">
-                                            Log In
-                                        </Link>
-                                    </Menu.Item>
-                                }
-                            </Menu>
+                            <Menu className={classes.menu} items={menuItems} />
                         </>
                     }
                     placement="bottomRight"
