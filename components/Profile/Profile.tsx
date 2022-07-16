@@ -2,7 +2,7 @@ import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Row, Col, Modal } from 'antd';
+import { Row, Col, Modal, Table } from 'antd';
 import AddAccountForm from '../AddAccountForm/AddAccountForm';
 
 const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
@@ -17,6 +17,34 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
   const onModalCancel = () => {
     setAccountFormModalVisible(false);
   }
+
+  const accountListColumns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Value',
+      dataIndex: 'value',
+      key: 'value',
+      render: (value:number) => (
+        <>
+          <span>${value.toLocaleString()}</span>
+        </>
+      )
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: () => 
+        <>
+          <button>Edit</button>
+          <button>Delete</button>
+        </>
+      
+    }
+  ]
 
   return (
     <>
@@ -116,30 +144,10 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
               <span>Name</span>
               <span>Value</span>
             </div>
-            {userAccountItems?.length > 0 ? 
-            userAccountItems?.map((account: { name: string, value: number }, index: number) =>
-              <div className={classes.accountsListItem} key={`${account.name}-${index}`}>
-                <span>{account.name}</span>
-                <span>${account.value.toLocaleString()}</span>
-              </div>
-            )
-          :
-          <h1>no accounts yet</h1>
-          }
-
+            <Table columns={accountListColumns} dataSource={userAccountItems}/>
           </div>
         </Col>
       </Row>
-
-
-
-
-      {/* Signed in as {session?.user?.email} <br />
-        <Image src={`${session?.user?.image}`} width={200} height={200} />
-        <h2>{session?.user?.name}</h2>
-        <button onClick={() => signOut({
-          callbackUrl: `${window.location.origin}/login`
-        })}>Sign out</button> */}
     </>
   )
 }
