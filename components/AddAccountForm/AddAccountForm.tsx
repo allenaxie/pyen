@@ -4,21 +4,25 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import {useRouter} from 'next/router';
 
 interface AddAcountFormProps {
-    setAccountFormModalVisible: Dispatch<SetStateAction<boolean>>
+    setAccountFormModalVisible: Dispatch<SetStateAction<boolean>>,
+    session: any,
+    setUserAccountItems: any,
+    userAccountItems: [],
 }
 
 const AddAccountForm = (props: AddAcountFormProps) => {
 
-    const {setAccountFormModalVisible} = props;
+    const {setAccountFormModalVisible, session, setUserAccountItems, userAccountItems} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [form] = Form.useForm();
 
     const router = useRouter();
 
 
-    const handleSubmit = async (values: {}) => {
-        console.log(values);
+    const handleSubmit = async (values: any) => {
         setIsLoading(true);
+        // add current session user to req.body
+        values.userId = session?.user?.id;
         const res = await fetch('/api/accountItem', {
             method: 'POST',
             headers: {
@@ -27,9 +31,12 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             },
             body: JSON.stringify(values)
         })
+        const {data} = await res.json();
         setIsLoading(false);
         // close modal
         setAccountFormModalVisible(false);
+        // update state to rerender
+        setUserAccountItems([...userAccountItems, data])
         // reset form
         form.resetFields();
         // refresh profile page

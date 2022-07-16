@@ -7,7 +7,7 @@ import clientPromise from '../../../utilities/nextAuth-clientPromise';
 
 
 export default NextAuth({
-    adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(clientPromise),
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -42,6 +42,11 @@ export default NextAuth({
         // Or you can return a URL to redirect to:
         // return '/unauthorized'
       }
+    },
+    session: async (session, user) => {
+      // session.userId = user.id;
+      return Promise.resolve(session);
     }
   },
+
 })

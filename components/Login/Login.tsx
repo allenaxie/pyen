@@ -14,7 +14,6 @@ const Login = ({ providers }: any) => {
   ]
 
   if (session) {
-    console.log('login-session', session)
     return (
       <>
         Signed in as {session?.user?.email} <br />

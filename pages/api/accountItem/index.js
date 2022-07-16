@@ -1,15 +1,16 @@
 import AccountItem from "../../../models/accountItem";
 import dbConnect from '../../../utilities/dbConnect';
+import {useSession} from 'next-auth/react';
 
 export default async function handler (req,res) {
     const {method} = req;
 
     dbConnect();
-
+    
     if (method === 'GET') {
         try {
             // get all accounts
-            const accounts = await AccountItem.find({});
+            const accounts = await AccountItem.find({userId:req.query.user});
             res.status(200).json({message: 'GET request successful', data: accounts});
         } catch(err) {
             console.log(err);
@@ -18,6 +19,7 @@ export default async function handler (req,res) {
     } else if (method === 'POST') {
         try {
             const account = await AccountItem.create(req.body);
+            // req.body.user = session.user
             res.status(201).json({message: 'POST request succeeded', data: account});
         } catch (err) {
             console.log(err);
