@@ -13,6 +13,7 @@ const ProfilePage = (props: ProfilePageProps) => {
     const { accounts } = props;
     const { data: session } = useSession();
     const [userAccountItems, setUserAccountItems] = useState([]);
+    const [updateAccountItems, setUpdateAccountItems] = useState(-1);
 
     useEffect(() => {
         const getUserAccountItems = async () => {
@@ -25,11 +26,11 @@ const ProfilePage = (props: ProfilePageProps) => {
             }
         }
         getUserAccountItems();
-    }, [])
+    }, [updateAccountItems])
 
     return (
         <>
-            <Profile userAccountItems={userAccountItems} setUserAccountItems={setUserAccountItems}/>
+            <Profile userAccountItems={userAccountItems} setUserAccountItems={setUserAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems}/>
         </>
     )
 }

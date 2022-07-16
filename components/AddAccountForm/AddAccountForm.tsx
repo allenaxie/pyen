@@ -8,11 +8,13 @@ interface AddAcountFormProps {
     session: any,
     setUserAccountItems: any,
     userAccountItems: [],
+    setUpdateAccountItems: any,
+    updateAccountItems: number,
 }
 
 const AddAccountForm = (props: AddAcountFormProps) => {
 
-    const {setAccountFormModalVisible, session, setUserAccountItems, userAccountItems} = props;
+    const {setAccountFormModalVisible, session, setUserAccountItems, userAccountItems, setUpdateAccountItems, updateAccountItems} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -36,7 +38,8 @@ const AddAccountForm = (props: AddAcountFormProps) => {
         // close modal
         setAccountFormModalVisible(false);
         // update state to rerender
-        setUserAccountItems([...userAccountItems, data])
+        setUpdateAccountItems(updateAccountItems * -1);
+
         // reset form
         form.resetFields();
         // refresh profile page

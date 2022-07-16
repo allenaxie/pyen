@@ -2,10 +2,10 @@ import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Row, Col, Modal, Table } from 'antd';
+import { Row, Col, Modal, Table, Button } from 'antd';
 import AddAccountForm from '../AddAccountForm/AddAccountForm';
 
-const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
+const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems, updateAccountItems }: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
 
@@ -18,6 +18,26 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
     setAccountFormModalVisible(false);
   }
 
+  const handleAccountItemEdit = async (item:any) => {
+    try {
+      const account = await fetch(`/api/accountItem/${item._id}`)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleAccountItemDelete = async (item:any) => {
+    try {
+      const deletedAccountItem = await fetch(`/api/accountItem/${item._id}`, {
+        method: 'DELETE',
+      })
+      setUpdateAccountItems(updateAccountItems * -1);
+
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   const accountListColumns = [
     {
       title: 'Name',
@@ -28,7 +48,7 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
-      render: (value:number) => (
+      render: (value: number) => (
         <>
           <span>${value.toLocaleString()}</span>
         </>
@@ -37,12 +57,25 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
     {
       title: 'Actions',
       key: 'actions',
-      render: () => 
+      render: (record : {}) =>
         <>
-          <button>Edit</button>
-          <button>Delete</button>
+          <Button
+            className={classes.editBtn}
+            type="primary"
+            onClick={() => handleAccountItemEdit(record)}
+          >
+            Edit
+          </Button>
+          <Button
+            className={classes.deleteBtn}
+            type="primary"
+            danger
+            onClick={() => handleAccountItemDelete(record)}
+          >
+            Delete
+          </Button>
         </>
-      
+
     }
   ]
 
@@ -135,7 +168,7 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
                 }
                 footer={null}
               >
-                <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} setUserAccountItems={setUserAccountItems} userAccountItems={userAccountItems} session={session}/>
+                <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} setUserAccountItems={setUserAccountItems} userAccountItems={userAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems} session={session} />
               </Modal>
             </Col>
           </Row>
@@ -144,7 +177,7 @@ const Profile = ({ userAccountItems, setUserAccountItems }: any) => {
               <span>Name</span>
               <span>Value</span>
             </div>
-            <Table columns={accountListColumns} dataSource={userAccountItems}/>
+            <Table columns={accountListColumns} dataSource={userAccountItems} pagination={{ pageSize: 5 }} />
           </div>
         </Col>
       </Row>
