@@ -3,7 +3,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
 import { Row, Col, Modal, Table, Button, Form } from 'antd';
-import { AddAccountForm, EditAccountForm } from '../index';
+import { AddAccountForm, EditAccountForm, AccountLineChart } from '../index';
 
 const Profile = ({
   userAccountItems,
@@ -34,7 +34,6 @@ const Profile = ({
 
   const handleAccountItemEdit = async (item: any) => {
     try {
-      console.log('edit', item)
       const updateCurrentAccount = () => {
         setCurrentAccountItem(item);
       }
@@ -158,7 +157,7 @@ const Profile = ({
           className={classes.chartContainer}
         >
           <div>
-            chart
+            <AccountLineChart/>
           </div>
         </Col>
         <Col
