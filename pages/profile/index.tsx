@@ -1,6 +1,7 @@
 import { Profile } from '../../components';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import { Form } from 'antd';
 
 interface ProfilePageProps {
     accounts: {
@@ -14,6 +15,8 @@ const ProfilePage = (props: ProfilePageProps) => {
     const { data: session } = useSession();
     const [userAccountItems, setUserAccountItems] = useState([]);
     const [updateAccountItems, setUpdateAccountItems] = useState(-1);
+    const [currentAccountItem, setCurrentAccountItem] = useState({});
+    const [editForm] = Form.useForm();
 
     useEffect(() => {
         const getUserAccountItems = async () => {
@@ -28,24 +31,25 @@ const ProfilePage = (props: ProfilePageProps) => {
         getUserAccountItems();
     }, [updateAccountItems])
 
+    useEffect(() => {
+        // reset form initial values
+        editForm.resetFields();
+    }, [currentAccountItem])
+
+
     return (
         <>
-            <Profile userAccountItems={userAccountItems} setUserAccountItems={setUserAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems}/>
+            <Profile
+                userAccountItems={userAccountItems}
+                setUserAccountItems={setUserAccountItems}
+                setUpdateAccountItems={setUpdateAccountItems}
+                updateAccountItems={updateAccountItems}
+                setCurrentAccountItem={setCurrentAccountItem}
+                editForm={editForm}
+                currentAccountItem={currentAccountItem}
+            />
         </>
     )
 }
 
 export default ProfilePage;
-
-// export async function getStaticProps(context:any) {
-//     // get current user
-
-//     // get account info
-//     const res = await fetch(`${process.env.SERVER}/api/accountItem?user=12312`,);
-//     const {data} = await res.json();
-//     return {
-//         props: {
-//             accounts: data,
-//         }
-//     }
-// }

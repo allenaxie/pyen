@@ -2,12 +2,21 @@ import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Row, Col, Modal, Table, Button } from 'antd';
-import AddAccountForm from '../AddAccountForm/AddAccountForm';
+import { Row, Col, Modal, Table, Button, Form } from 'antd';
+import { AddAccountForm, EditAccountForm } from '../index';
 
-const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems, updateAccountItems }: any) => {
+const Profile = ({
+  userAccountItems,
+  setUserAccountItems,
+  setUpdateAccountItems,
+  updateAccountItems,
+  setCurrentAccountItem,
+  editForm,
+  currentAccountItem
+}: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
+  const [editFormModalVisible, setEditFormModalVisible] = useState(false);
 
   const handleAddAccountBtn = () => {
     // open modal with form
@@ -18,22 +27,31 @@ const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems,
     setAccountFormModalVisible(false);
   }
 
-  const handleAccountItemEdit = async (item:any) => {
+  const onEditModalCancel = () => {
+    setEditFormModalVisible(false);
+  }
+
+  const handleAccountItemEdit = async (item: any) => {
     try {
-      const account = await fetch(`/api/accountItem/${item._id}`)
+      console.log('edit', item)
+      const updateCurrentAccount = () => {
+        setCurrentAccountItem(item);
+      }
+      updateCurrentAccount();
+      setEditFormModalVisible(true);
     } catch (err) {
       console.log(err);
     }
   }
 
-  const handleAccountItemDelete = async (item:any) => {
+  const handleAccountItemDelete = async (item: any) => {
     try {
       const deletedAccountItem = await fetch(`/api/accountItem/${item._id}`, {
         method: 'DELETE',
       })
       setUpdateAccountItems(updateAccountItems * -1);
 
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -57,7 +75,7 @@ const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems,
     {
       title: 'Actions',
       key: 'actions',
-      render: (record : {}) =>
+      render: (record: {}) =>
         <>
           <Button
             className={classes.editBtn}
@@ -170,6 +188,25 @@ const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems,
               >
                 <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} setUserAccountItems={setUserAccountItems} userAccountItems={userAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems} session={session} />
               </Modal>
+              <Modal
+                title={
+                  <div>
+                    <h2>Update Account</h2>
+                  </div>
+                }
+                visible={editFormModalVisible}
+                className={classes.editFormModal}
+                onCancel={onEditModalCancel}
+                footer={null}
+              >
+                <EditAccountForm
+                  setEditFormModalVisible={setEditFormModalVisible}
+                  currentAccountItem={currentAccountItem}
+                  setUpdateAccountItems={setUpdateAccountItems}
+                  updateAccountItems={updateAccountItems}
+                  editForm={editForm}
+                />
+              </Modal>
             </Col>
           </Row>
           <div className={classes.accountsList}>
@@ -177,7 +214,12 @@ const Profile = ({ userAccountItems, setUserAccountItems, setUpdateAccountItems,
               <span>Name</span>
               <span>Value</span>
             </div>
-            <Table columns={accountListColumns} dataSource={userAccountItems} pagination={{ pageSize: 5 }} />
+            <Table
+              columns={accountListColumns}
+              dataSource={userAccountItems}
+              pagination={{ pageSize: 5 }}
+              rowKey={(item) => item.id}
+            />
           </div>
         </Col>
       </Row>

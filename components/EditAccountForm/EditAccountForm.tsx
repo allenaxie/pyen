@@ -1,47 +1,48 @@
-import classes from './AddAccountForm.module.scss';
+import classes from './EditAccountForm.module.scss';
 import { Form, Input, InputNumber, Button } from 'antd';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import {useRouter} from 'next/router';
 
-interface AddAcountFormProps {
-    setAccountFormModalVisible: Dispatch<SetStateAction<boolean>>,
-    session: any,
-    setUserAccountItems: any,
-    userAccountItems: [],
+interface EditAccountFormProps {
+    setEditFormModalVisible : Dispatch<SetStateAction<boolean>>,
+    currentAccountItem: any,
     setUpdateAccountItems: any,
     updateAccountItems: number,
+    editForm: any,
 }
 
-const AddAccountForm = (props: AddAcountFormProps) => {
+const EditAccountForm = (props: EditAccountFormProps) => {
 
-    const {setAccountFormModalVisible, session, setUserAccountItems, userAccountItems, setUpdateAccountItems, updateAccountItems} = props;
+    const {setEditFormModalVisible, currentAccountItem, updateAccountItems,setUpdateAccountItems, editForm } = props;
     const [isLoading, setIsLoading] = useState(false);
-    const [form] = Form.useForm();
 
     const router = useRouter();
 
+    console.log('currentAccount', currentAccountItem);
 
     const handleSubmit = async (values: any) => {
-        setIsLoading(true);
-        // add current session user to req.body
-        values.userId = session?.user?.id;
-        const res = await fetch('/api/accountItem', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values)
-        })
-        const {data} = await res.json();
+        try {
+            setIsLoading(true);
+            console.log('edit', values)
+            const account = await fetch(`/api/accountItem/${currentAccountItem._id}`, {
+              method: 'PUT',
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(values)
+            })
+          } catch (err) {
+            console.log(err);
+          }
         setIsLoading(false);
         // close modal
-        setAccountFormModalVisible(false);
+        setEditFormModalVisible(false);
         // update state to rerender
         setUpdateAccountItems(updateAccountItems * -1);
 
         // reset form
-        form.resetFields();
+        editForm.resetFields();
         // refresh profile page
         router.push('/profile');
     }
@@ -53,8 +54,8 @@ const AddAccountForm = (props: AddAcountFormProps) => {
     return (
         <Form
             className={classes.formContainer}
-            form={form}
-            name="addAccount"
+            form={editForm}
+            name="editAccount"
             autoComplete='off'
             onFinish={handleSubmit}
             onFinishFailed={onFinishFailed}
@@ -64,12 +65,17 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             wrapperCol={{
                 span:16
             }}
+            initialValues = {{
+                name: `${currentAccountItem.name}`,
+                value: currentAccountItem.value,
+            }}
             scrollToFirstError
         >
             {/* Name */}
             <Form.Item
                 label={<span className={classes.formLabel}>Name</span>}
                 name="name"
+                key="name"
                 rules={[
                     {
                         required: true,
@@ -83,6 +89,7 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             <Form.Item
                 label={<span className={classes.formLabel}>Value</span>}
                 name="value"
+                key="value"
                 rules={[
                     {
                         required: true,
@@ -102,11 +109,12 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             </Form.Item>
             <Form.Item
                 className={classes.submitBtn}
+                key="submitBtn"
             >
-                <Button type="primary" htmlType="submit">Create Account</Button>
+                <Button type="primary" htmlType="submit">Update Account</Button>
             </Form.Item>
         </Form>
     )
 }
 
-export default AddAccountForm;
+export default EditAccountForm;
