@@ -10,7 +10,7 @@ export default async function handler (req,res) {
     if (method === 'GET') {
         try {
             // get all accounts
-            const accounts = await AccountItem.find({userId:req.query.user});
+            const accounts = await AccountItem.find({userId:req.query.user}).sort({value: -1});
             res.status(200).json({message: 'GET request successful', data: accounts});
         } catch(err) {
             console.log(err);

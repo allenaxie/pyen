@@ -68,7 +68,6 @@ const Profile = ({
       dataIndex: 'value',
       key: 'value',
       sorter: (a:any,b:any) => a.value - b.value,
-      defaultSortOrder: 'descend',
       render: (value: number) => (
         <>
           <span>${value.toLocaleString()}</span>
