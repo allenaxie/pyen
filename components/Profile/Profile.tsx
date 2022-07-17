@@ -210,10 +210,6 @@ const Profile = ({
             </Col>
           </Row>
           <div className={classes.accountsList}>
-            <div className={classes.listTitle}>
-              <span>Name</span>
-              <span>Value</span>
-            </div>
             <Table
               columns={accountListColumns}
               dataSource={userAccountItems}
