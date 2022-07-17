@@ -16,6 +16,7 @@ const ProfilePage = (props: ProfilePageProps) => {
     const [userAccountItems, setUserAccountItems] = useState([]);
     const [updateAccountItems, setUpdateAccountItems] = useState(-1);
     const [currentAccountItem, setCurrentAccountItem] = useState({});
+    const [netWorth, setNetWorth] = useState(0);
     const [editForm] = Form.useForm();
 
     useEffect(() => {
@@ -24,6 +25,11 @@ const ProfilePage = (props: ProfilePageProps) => {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
                 const { data } = await res.json();
                 setUserAccountItems(data);
+
+                let netWorth = data.reduce( function (acc :number, item: any) {
+                    return acc + item.value;
+                  }, 0);
+                setNetWorth(netWorth);
             } catch (err) {
                 console.log(err);
             }
@@ -47,6 +53,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                 setCurrentAccountItem={setCurrentAccountItem}
                 editForm={editForm}
                 currentAccountItem={currentAccountItem}
+                netWorth={netWorth}
             />
         </>
     )

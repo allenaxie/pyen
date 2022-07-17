@@ -12,7 +12,8 @@ const Profile = ({
   updateAccountItems,
   setCurrentAccountItem,
   editForm,
-  currentAccountItem
+  currentAccountItem,
+  netWorth
 }: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
@@ -99,6 +100,8 @@ const Profile = ({
     }
   ]
 
+ 
+
   return (
     <>
       <Row>
@@ -109,7 +112,7 @@ const Profile = ({
         >
           <div className={classes.netWorthTitle}>
             <h1>Net worth:</h1>
-            <span>$55,000</span>
+            <span>${netWorth.toLocaleString()}</span>
           </div>
           <Row>
             <Col
