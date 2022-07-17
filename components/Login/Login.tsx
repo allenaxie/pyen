@@ -42,7 +42,7 @@ const Login = ({ providers }: any) => {
               >
                 <button 
                 onClick={() => signIn((provider as any).id, {
-                  callbackUrl: `${window.location.origin}/profile`,
+                  callbackUrl: `${window.location.origin}`,
                 })}>
                   Sign In with 
                   {providerIcons[index]}

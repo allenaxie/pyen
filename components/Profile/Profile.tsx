@@ -15,9 +15,18 @@ const Profile = ({
   currentAccountItem,
   netWorth
 }: any) => {
+  console.log('useraccountitems', userAccountItems);
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
   const [editFormModalVisible, setEditFormModalVisible] = useState(false);
+  const [lineChartData, setLineChartData] = useState({
+    labels: ['01/22', '02/22', '03/22', '04/22', '05/22', '06/22'],
+    datasets: [{
+      label: 'Account Value',
+      data: userAccountItems?.map((item: any) => item.value),
+      backgroundColor: ["rgba(75,192,192,1)"]
+    }]
+  })
 
   const handleAddAccountBtn = () => {
     // open modal with form
@@ -61,13 +70,13 @@ const Profile = ({
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      sorter: (a:any,b:any) => a.name.localeCompare(b.name),
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
     },
     {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
-      sorter: (a:any,b:any) => a.value - b.value,
+      sorter: (a: any, b: any) => a.value - b.value,
       render: (value: number) => (
         <>
           <span>${value.toLocaleString()}</span>
@@ -98,8 +107,6 @@ const Profile = ({
 
     }
   ]
-
- 
 
   return (
     <>
@@ -157,7 +164,7 @@ const Profile = ({
           className={classes.chartContainer}
         >
           <div>
-            <AccountLineChart/>
+            <AccountLineChart lineChartData={lineChartData}/>
           </div>
         </Col>
         <Col
