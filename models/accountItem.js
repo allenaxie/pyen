@@ -9,6 +9,10 @@ const accountItemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    date: {
+        type: Date,
+        required: true,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

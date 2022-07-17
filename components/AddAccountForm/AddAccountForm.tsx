@@ -1,5 +1,5 @@
 import classes from './AddAccountForm.module.scss';
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, DatePicker } from 'antd';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {useRouter} from 'next/router';
 
@@ -22,6 +22,7 @@ const AddAccountForm = (props: AddAcountFormProps) => {
 
 
     const handleSubmit = async (values: any) => {
+        console.log(values);
         setIsLoading(true);
         // add current session user to req.body
         values.userId = session?.user?.id;
@@ -66,9 +67,19 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             }}
             scrollToFirstError
         >
+            {/* Date */}
+            <Form.Item
+                label={<span className={classes.formLabel}>Month/Year</span>}
+                name="date"
+                rules={[
+                    {required: true, message: 'Please select a date'}
+                ]}
+            >
+                <DatePicker picker="month" />
+            </Form.Item>
             {/* Name */}
             <Form.Item
-                label={<span className={classes.formLabel}>Name</span>}
+                label={<span className={classes.formLabel}>Account Name</span>}
                 name="name"
                 rules={[
                     {
@@ -77,7 +88,7 @@ const AddAccountForm = (props: AddAcountFormProps) => {
                     }
                 ]}
             >
-                <Input placeholder="Name" name="name" />
+                <Input placeholder="Account Name" name="name" />
             </Form.Item>
             {/* Value */}
             <Form.Item

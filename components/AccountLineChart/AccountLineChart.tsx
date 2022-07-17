@@ -1,6 +1,5 @@
 import classes from './AccountLineChart.module.scss';
 import { Line } from 'react-chartjs-2';
-// import { Chart as ChartJS } from 'chart.js/auto';
 
 import {
     Chart as ChartJS,
@@ -24,7 +23,6 @@ import {
     );
 
 const AccountLineChart = ({lineChartData}:any) => {
-console.log(lineChartData);
     return (
         <>
             <Line

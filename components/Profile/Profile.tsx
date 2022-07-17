@@ -15,7 +15,6 @@ const Profile = ({
   currentAccountItem,
   netWorth
 }: any) => {
-  console.log('useraccountitems', userAccountItems);
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
   const [editFormModalVisible, setEditFormModalVisible] = useState(false);
@@ -164,7 +163,7 @@ const Profile = ({
           className={classes.chartContainer}
         >
           <div>
-            <AccountLineChart lineChartData={lineChartData}/>
+            <AccountLineChart lineChartData={lineChartData} />
           </div>
         </Col>
         <Col
@@ -174,13 +173,21 @@ const Profile = ({
         >
           <Row className={classes.accountListHeader}>
             <Col
-              span={18}
-              className={classes.accountListHeaderTitle}
+              span={5}
+              className={classes.accountListYear}
             >
-              <h1>Accounts</h1>
+              <h1>2022</h1>
             </Col>
             <Col
-              span={6}
+              span={14}
+              className={classes.accountListMonthsTabs}
+            >
+              <div>
+                months
+              </div>
+            </Col>
+            <Col
+              span={5}
               className={classes.accountListAddBtn}
             >
               <button onClick={handleAddAccountBtn}>+</button>
@@ -220,6 +227,9 @@ const Profile = ({
               </Modal>
             </Col>
           </Row>
+          <div>
+            <h2>Net worth: $35,453</h2>
+          </div>
           <div className={classes.accountsList}>
             <Table
               columns={accountListColumns}
