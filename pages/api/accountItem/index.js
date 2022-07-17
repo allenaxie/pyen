@@ -19,7 +19,6 @@ export default async function handler (req,res) {
     } else if (method === 'POST') {
         try {
             const account = await AccountItem.create(req.body);
-            // req.body.user = session.user
             res.status(201).json({message: 'POST request succeeded', data: account});
         } catch (err) {
             console.log(err);

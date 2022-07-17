@@ -61,11 +61,14 @@ const Profile = ({
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      sorter: (a:any,b:any) => a.name.localeCompare(b.name),
     },
     {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
+      sorter: (a:any,b:any) => a.value - b.value,
+      defaultSortOrder: 'descend',
       render: (value: number) => (
         <>
           <span>${value.toLocaleString()}</span>
