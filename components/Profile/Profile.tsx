@@ -1,6 +1,6 @@
 import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Row, Col, Modal, Table, Button, Form } from 'antd';
 import { AddAccountForm, EditAccountForm, AccountLineChart } from '../index';
@@ -13,19 +13,12 @@ const Profile = ({
   setCurrentAccountItem,
   editForm,
   currentAccountItem,
-  netWorth
+  netWorth,
+  lineChartData
 }: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
   const [editFormModalVisible, setEditFormModalVisible] = useState(false);
-  const [lineChartData, setLineChartData] = useState({
-    labels: ['01/22', '02/22', '03/22', '04/22', '05/22', '06/22'],
-    datasets: [{
-      label: 'Account Value',
-      data: userAccountItems?.map((item: any) => item.value),
-      backgroundColor: ["rgba(75,192,192,1)"]
-    }]
-  })
 
   const handleAddAccountBtn = () => {
     // open modal with form
@@ -83,6 +76,16 @@ const Profile = ({
       )
     },
     {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      render: (value: any) => (
+        <>
+          <span>{value.toLocaleString('en-US', {month:'short'})}</span>
+        </>
+      )
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (record: {}) =>
@@ -103,7 +106,6 @@ const Profile = ({
             Delete
           </Button>
         </>
-
     }
   ]
 

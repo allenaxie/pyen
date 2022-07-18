@@ -18,7 +18,19 @@ const accountItemSchema = new mongoose.Schema({
         ref: 'User',
     },
 }, {
-    timestamps: true
+    timestamps: true,
+    // enable virtual properties
+    toJSON: {virtuals: true}
+})
+
+accountItemSchema.virtual('month').get(function () {
+    const month = this.date.getMonth() + 1;
+    return month;
+})
+
+accountItemSchema.virtual('year').get(function () {
+    const year = this.date.getFullYear();
+    return year;
 })
 
 module.exports = mongoose.models.AccountItem || mongoose.model('AccountItem', accountItemSchema);

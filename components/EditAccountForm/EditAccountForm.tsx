@@ -18,12 +18,9 @@ const EditAccountForm = (props: EditAccountFormProps) => {
 
     const router = useRouter();
 
-    console.log('currentAccount', currentAccountItem);
-
     const handleSubmit = async (values: any) => {
         try {
             setIsLoading(true);
-            console.log('edit', values)
             const account = await fetch(`/api/accountItem/${currentAccountItem._id}`, {
               method: 'PUT',
               headers: {
