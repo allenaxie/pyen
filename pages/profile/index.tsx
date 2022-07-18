@@ -25,7 +25,8 @@ const ProfilePage = (props: ProfilePageProps) => {
             label: 'Account Value',
             data: [],
             backgroundColor: ["rgba(75,192,192,1"]
-        }]});
+        }],
+    });
 
     useEffect(() => {
         const getUserAccountItems = async () => {
@@ -57,7 +58,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                         label: 'Account Value',
                         data: dataCopy.map((item: any) => item.value),
                         backgroundColor: ["rgba(75,192,192,1"]
-                    }]
+                    }],
                 })
             } catch (err) {
                 console.log(err);

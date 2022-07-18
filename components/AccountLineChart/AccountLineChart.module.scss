@@ -1,0 +1,19 @@
+.container {
+    // position: relative;
+    height: 50vh;
+    width: 40vw;
+
+    @media only screen and (max-width: 992px) {
+        width: 60vw;
+        height: 45vh;
+    }
+
+    @media only screen and (max-width: 600px) {
+        width: 80vw;
+        height: 40vh;
+    }
+}
+
+// .chart {
+//     width: 40vw;
+// }

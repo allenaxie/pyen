@@ -23,12 +23,19 @@ import {
     );
 
 const AccountLineChart = ({lineChartData}:any) => {
+
+    const options = {
+        maintainAspectRatio: false	// Don't maintain w/h ratio
+      }
+  
     return (
-        <>
+        <div className={classes.container}>
             <Line
                 data={lineChartData}
+                options={options}
+                className={classes.chart}
             />
-        </>
+        </div>
     )
 }
 
