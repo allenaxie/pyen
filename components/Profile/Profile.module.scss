@@ -1,3 +1,5 @@
+
+
 .statsContainer {
     padding: 3rem 2rem 3rem 8rem;
 }
@@ -31,27 +33,32 @@
 
 .accountListContainer {
     border: 1px solid #000;
-
 }
 
 .accountListHeader {
-    display: flex;
     padding: 1rem;
 }
 
-.accountListHeaderTitle {
-    display: flex;
-    justify-content: center;
+.accountListYear {
+    padding: .5rem;
 }
 
 .accountListMonthsTabs {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: .5rem;
+}
+
+.monthTabs {
+    height: 100%;
+    width: 100%;
 }
 
 .accountsList {
     padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
 }
 
 .accountsListItem {

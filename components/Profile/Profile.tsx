@@ -2,7 +2,8 @@ import classes from './Profile.module.scss';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Row, Col, Modal, Table, Button, Form } from 'antd';
+import { Row, Col, Modal, Table, Button, Tabs, DatePicker } from 'antd';
+import type { DatePickerProps } from 'antd';
 import { AddAccountForm, EditAccountForm, AccountLineChart } from '../index';
 
 const Profile = ({
@@ -19,6 +20,9 @@ const Profile = ({
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
   const [editFormModalVisible, setEditFormModalVisible] = useState(false);
+  const { TabPane } = Tabs;
+  const [activeMonth, setActiveMonth] = useState('Jul');
+  const [activeYear, setActiveYear] = useState('2022');
 
   const handleAddAccountBtn = () => {
     // open modal with form
@@ -75,16 +79,16 @@ const Profile = ({
         </>
       )
     },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-      render: (value: any) => (
-        <>
-          <span>{value.toLocaleString('en-US', {month:'short'})}</span>
-        </>
-      )
-    },
+    // {
+    //   title: 'Date',
+    //   dataIndex: 'date',
+    //   key: 'date',
+    //   render: (value: any) => (
+    //     <>
+    //       <span>{value.toLocaleString('en-US', { month: 'short' })}</span>
+    //     </>
+    //   )
+    // },
     {
       title: 'Actions',
       key: 'actions',
@@ -109,9 +113,19 @@ const Profile = ({
     }
   ]
 
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const handleMonthTabsChange = (key: string) => {
+    console.log(key);
+  }
+
+  const handleYearChange: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(dateString)
+  }
+
   return (
     <>
-      <Row>
+      <Row className={classes.container}>
         <Col
           xs={{ span: 24 }}
           lg={{ span: 12 }}
@@ -175,73 +189,88 @@ const Profile = ({
         >
           <Row className={classes.accountListHeader}>
             <Col
-              span={5}
+              span={6}
               className={classes.accountListYear}
             >
-              <h1>2022</h1>
+              <DatePicker onChange={handleYearChange} picker="year" allowClear={false}
+              />
             </Col>
             <Col
-              span={14}
+              span={15}
               className={classes.accountListMonthsTabs}
             >
-              <div>
-                months
-              </div>
+              <Tabs
+                defaultActiveKey='Jul'
+                tabPosition='top'
+                className={classes.monthTabs}
+                onChange={handleMonthTabsChange}
+                moreIcon={false}
+              >
+                {months.map((item, index) => (
+                  <TabPane
+                    key={item}
+                    tab={item}
+                    className={classes.monthsTabPane}
+                  >
+                    <div>
+                      <h2>Net worth: ${netWorth.toLocaleString()}</h2>
+                    </div>
+                    <Table
+                      columns={accountListColumns}
+                      dataSource={userAccountItems}
+                      pagination={{ pageSize: 5 }}
+                      rowKey={(item) => item.id}
+                    />
+                    {/* <div className={classes.accountsList}>
+                    </div> */}
+
+                  </TabPane>
+                ))}
+              </Tabs>
             </Col>
             <Col
-              span={5}
+              span={3}
               className={classes.accountListAddBtn}
             >
               <button onClick={handleAddAccountBtn}>+</button>
-              <Modal
-                visible={accountFormModalVisible}
-                className={classes.accountFormModal}
-                onCancel={onModalCancel}
-                title={
-                  <div className={classes.modalHeading}>
-                    <h2>
-                      Create Account
-                    </h2>
-                  </div>
-                }
-                footer={null}
-              >
-                <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} setUserAccountItems={setUserAccountItems} userAccountItems={userAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems} session={session} />
-              </Modal>
-              <Modal
-                title={
-                  <div>
-                    <h2>Update Account</h2>
-                  </div>
-                }
-                visible={editFormModalVisible}
-                className={classes.editFormModal}
-                onCancel={onEditModalCancel}
-                footer={null}
-              >
-                <EditAccountForm
-                  setEditFormModalVisible={setEditFormModalVisible}
-                  currentAccountItem={currentAccountItem}
-                  setUpdateAccountItems={setUpdateAccountItems}
-                  updateAccountItems={updateAccountItems}
-                  editForm={editForm}
-                />
-              </Modal>
             </Col>
           </Row>
-          <div>
-            <h2>Net worth: $35,453</h2>
-          </div>
-          <div className={classes.accountsList}>
-            <Table
-              columns={accountListColumns}
-              dataSource={userAccountItems}
-              pagination={{ pageSize: 5 }}
-              rowKey={(item) => item.id}
-            />
-          </div>
         </Col>
       </Row>
+      <Modal
+        visible={accountFormModalVisible}
+        className={classes.accountFormModal}
+        onCancel={onModalCancel}
+        title={
+          <div className={classes.modalHeading}>
+            <h2>
+              Create Account
+            </h2>
+          </div>
+        }
+        footer={null}
+      >
+        <AddAccountForm setAccountFormModalVisible={setAccountFormModalVisible} setUserAccountItems={setUserAccountItems} userAccountItems={userAccountItems} setUpdateAccountItems={setUpdateAccountItems} updateAccountItems={updateAccountItems} session={session} />
+      </Modal>
+      <Modal
+        title={
+          <div>
+            <h2>Update Account</h2>
+          </div>
+        }
+        visible={editFormModalVisible}
+        className={classes.editFormModal}
+        onCancel={onEditModalCancel}
+        footer={null}
+      >
+        <EditAccountForm
+          setEditFormModalVisible={setEditFormModalVisible}
+          currentAccountItem={currentAccountItem}
+          setUpdateAccountItems={setUpdateAccountItems}
+          updateAccountItems={updateAccountItems}
+          editForm={editForm}
+        />
+      </Modal>
     </>
   )
 }
