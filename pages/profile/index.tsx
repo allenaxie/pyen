@@ -27,6 +27,8 @@ const ProfilePage = (props: ProfilePageProps) => {
             backgroundColor: ["rgba(75,192,192,1"]
         }],
     });
+    const [activeMonth, setActiveMonth] = useState(7);
+    const [activeYear, setActiveYear] = useState('2022');
 
     useEffect(() => {
         const getUserAccountItems = async () => {
@@ -34,18 +36,27 @@ const ProfilePage = (props: ProfilePageProps) => {
                 // get new data
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
                 const { data } = await res.json();
-                setUserAccountItems(data);
 
-                // recalculate net worth
-                let netWorth = data.reduce(function (acc: number, item: any) {
+
+                // table data
+                let filteredTableData = data.filter((item:any) => 
+                {
+                    if(item.month == activeMonth && item.year == activeYear) {
+                    return item
+                }}
+                )
+                setUserAccountItems(filteredTableData);
+
+                // calculate net worth
+                let netWorth = filteredTableData.reduce(function (acc: number, item: any) {
                     return acc + item.value;
                 }, 0);
                 setNetWorth(netWorth);
 
                 // update chart
                 // make copy of data to sort array by date
-                const dataCopy = data.map((item:any) => item)
-                dataCopy.sort((a:any,b:any) => a.month - b.month);
+                const dataCopy = data.filter((item:any) => item.year == activeYear)
+                dataCopy.sort((a:any,b:any) => a.month - b.month || a.year - b.year);
                 // get date from data
                 let labels = dataCopy?.map((item: any) => {
                     return `${item.month}/${item.year}`
@@ -67,6 +78,7 @@ const ProfilePage = (props: ProfilePageProps) => {
         getUserAccountItems();
     }, [updateAccountItems])
 
+    console.log('userAccountItems', userAccountItems);
     useEffect(() => {
         // reset form initial values
         editForm.resetFields();
@@ -84,6 +96,10 @@ const ProfilePage = (props: ProfilePageProps) => {
                 currentAccountItem={currentAccountItem}
                 netWorth={netWorth}
                 lineChartData={lineChartData}
+                activeMonth={activeMonth}
+                setActiveMonth={setActiveMonth}
+                activeYear={activeYear}
+                setActiveYear={setActiveYear}
             />
         </>
     )

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Row, Col, Modal, Table, Button, Tabs, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import { AddAccountForm, EditAccountForm, AccountLineChart } from '../index';
+import moment from 'moment';
 
 const Profile = ({
   userAccountItems,
@@ -15,14 +16,17 @@ const Profile = ({
   editForm,
   currentAccountItem,
   netWorth,
-  lineChartData
+  lineChartData,
+  activeMonth,
+  setActiveMonth,
+  activeYear,
+  setActiveYear,
 }: any) => {
   const { data: session } = useSession();
   const [accountFormModalVisible, setAccountFormModalVisible] = useState(false);
   const [editFormModalVisible, setEditFormModalVisible] = useState(false);
   const { TabPane } = Tabs;
-  const [activeMonth, setActiveMonth] = useState('Jul');
-  const [activeYear, setActiveYear] = useState('2022');
+
 
   const handleAddAccountBtn = () => {
     // open modal with form
@@ -116,11 +120,13 @@ const Profile = ({
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const handleMonthTabsChange = (key: string) => {
-    console.log(key);
+    setActiveMonth(months.indexOf(key) + 1);
+    setUpdateAccountItems(updateAccountItems * -1);
   }
 
   const handleYearChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(dateString)
+    setActiveYear(dateString);
+    setUpdateAccountItems(updateAccountItems * -1);
   }
 
   return (
@@ -192,7 +198,7 @@ const Profile = ({
               span={6}
               className={classes.accountListYear}
             >
-              <DatePicker onChange={handleYearChange} picker="year" allowClear={false}
+              <DatePicker onChange={handleYearChange} picker="year" allowClear={false} defaultValue={moment()}
               />
             </Col>
             <Col
@@ -200,7 +206,7 @@ const Profile = ({
               className={classes.accountListMonthsTabs}
             >
               <Tabs
-                defaultActiveKey='Jul'
+                defaultActiveKey={moment().format('MMM')}
                 tabPosition='top'
                 className={classes.monthTabs}
                 onChange={handleMonthTabsChange}
@@ -221,9 +227,6 @@ const Profile = ({
                       pagination={{ pageSize: 5 }}
                       rowKey={(item) => item.id}
                     />
-                    {/* <div className={classes.accountsList}>
-                    </div> */}
-
                   </TabPane>
                 ))}
               </Tabs>
