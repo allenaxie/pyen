@@ -1,5 +1,5 @@
 import classes from './EditAccountForm.module.scss';
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, Spin } from 'antd';
 import { useState, Dispatch, SetStateAction } from 'react';
 import {useRouter} from 'next/router';
 
@@ -108,7 +108,15 @@ const EditAccountForm = (props: EditAccountFormProps) => {
                 className={classes.submitBtn}
                 key="submitBtn"
             >
-                <Button type="primary" htmlType="submit">Update Account</Button>
+                <Button type="primary" htmlType="submit">
+                    {isLoading ?
+                    <Spin/>
+                    :    
+                    <>
+                        Update Account
+                    </>   
+                }
+                </Button>
             </Form.Item>
         </Form>
     )

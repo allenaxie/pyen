@@ -1,7 +1,7 @@
 import { Profile } from '../../components/index';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { Form } from 'antd';
+import { Form, Spin } from 'antd';
 
 interface ProfilePageProps {
     accounts: {
@@ -12,6 +12,7 @@ interface ProfilePageProps {
 
 const ProfilePage = (props: ProfilePageProps) => {
     const { accounts } = props;
+    const [isLoading, setIsLoading] = useState(false);
     const { data: session } = useSession();
     const [userAccountItems, setUserAccountItems] = useState([]);
     const [updateAccountItems, setUpdateAccountItems] = useState(-1);
@@ -33,6 +34,9 @@ const ProfilePage = (props: ProfilePageProps) => {
     useEffect(() => {
         const getUserAccountItems = async () => {
             try {
+
+                setIsLoading(true);
+
                 // get new data
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
                 const { data } = await res.json();
@@ -105,7 +109,8 @@ const ProfilePage = (props: ProfilePageProps) => {
                         data: resultObject.map((item: any) => item.value),
                         backgroundColor: ["rgba(75,192,192,1"]
                     }],
-                })
+                });
+                setIsLoading(false);
             } catch (err) {
                 console.log(err);
             }
@@ -120,6 +125,11 @@ const ProfilePage = (props: ProfilePageProps) => {
 
     return (
         <>
+            {isLoading ? 
+            <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100vh"}}>
+                <Spin/>
+            </div>
+            :
             <Profile
                 userAccountItems={userAccountItems}
                 setUserAccountItems={setUserAccountItems}
@@ -135,6 +145,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                 activeYear={activeYear}
                 setActiveYear={setActiveYear}
             />
+            }
         </>
     )
 }

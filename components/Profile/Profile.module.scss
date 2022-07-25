@@ -33,6 +33,10 @@
 
 .accountListContainer {
     border: 1px solid #000;
+
+    @media only screen and (max-width: 992px) {
+        margin-top: 6rem;
+    }
 }
 
 .accountListHeader {
@@ -104,5 +108,9 @@
     :global .ant-modal-title div h2 {
         margin: 0 !important;
     }
+}
 
+.removeSVG {
+    color: #fff;
+    font-size: 1.2rem;
 }

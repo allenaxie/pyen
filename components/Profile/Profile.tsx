@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Row, Col, Modal, Table, Button, Tabs, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import { AddAccountForm, EditAccountForm, AccountLineChart } from '../index';
+import { IoCloseCircleSharp } from 'react-icons/io5';
 import moment from 'moment';
 
 const Profile = ({
@@ -101,7 +102,7 @@ const Profile = ({
             danger
             onClick={() => handleAccountItemDelete(record)}
           >
-            Delete
+            <IoCloseCircleSharp className={classes.removeSVG}/>
           </Button>
         </>
     }
