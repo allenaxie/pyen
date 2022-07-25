@@ -3,15 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Form, Spin } from 'antd';
 
-interface ProfilePageProps {
-    accounts: {
-        name: string,
-        value: number,
-    }
-}
-
-const ProfilePage = (props: ProfilePageProps) => {
-    const { accounts } = props;
+const ProfilePage = () => {
     const [accountsDataLoading, setAccountsDataLoading] = useState(false);
     const { data: session } = useSession();
     const [userAccountItems, setUserAccountItems] = useState([]);

@@ -9,15 +9,15 @@ const Login = ({ providers }: any) => {
   const { data: session } = useSession()
 
   const providerIcons = [
-    <FcGoogle/>,
-    <FaGithub/>,
+    <FcGoogle key="google"/>,
+    <FaGithub key="github"/>,
   ]
 
   if (session) {
     return (
       <>
         Signed in as {session?.user?.email} <br />
-        <Image src={`${session?.user?.image}`} width={200} height={200} />
+        <Image src={`${session?.user?.image}`} width={200} height={200} alt="user image"/>
         <h2>{session?.user?.name}</h2>
         <button onClick={() => signOut({
           callbackUrl: `${window.location.origin}/login`

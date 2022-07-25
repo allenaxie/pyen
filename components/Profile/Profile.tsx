@@ -164,7 +164,7 @@ const Profile = ({
               xs={{ span: 24 }}
               lg={{ span: 6 }}
             >
-              <Image src={session ? `${session?.user?.image}` : 'https://joeschmoe.io/api/v1/random'} width={100} height={100} />
+              <Image src={session ? `${session?.user?.image}` : 'https://joeschmoe.io/api/v1/random'} width={100} height={100} alt="avatarImg"/>
             </Col>
           </Row>
         </Col>

@@ -19,7 +19,7 @@ const Header = () => {
                 lg={{span:12}}
                 className={classes.imageContainer}
             >
-                <Image src="/headerImg.png" width={600} height={300}/>
+                <Image src="/headerImg.png" width={600} height={300} alt="financeImg"/>
             </Col>
         </Row>
     )
