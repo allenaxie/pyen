@@ -20,7 +20,7 @@ const Login = ({ providers }: any) => {
         <Image src={`${session?.user?.image}`} width={200} height={200} alt="user image"/>
         <h2>{session?.user?.name}</h2>
         <button onClick={() => signOut({
-          callbackUrl: `${window.location.origin}/login`
+          callbackUrl: `${process.env.NEXT_PUBLIC_SERVER}/login`
         })}>Sign out</button>
       </>
     )
@@ -42,7 +42,8 @@ const Login = ({ providers }: any) => {
               >
                 <button 
                 onClick={() => signIn((provider as any).id, {
-                  callbackUrl: `${window.location.origin}`,
+                  // callbackUrl: `${window.location.origin}`,
+                  callbackUrl: `${process.env.NEXT_PUBLIC_SERVER}`,
                 })}>
                   Sign In with 
                   {providerIcons[index]}
