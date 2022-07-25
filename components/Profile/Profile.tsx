@@ -185,7 +185,7 @@ const Profile = ({
           className={classes.chartContainer}
         >
           <div>
-            <AccountLineChart lineChartData={lineChartData} />
+            <AccountLineChart lineChartData={lineChartData} activeMonth={activeMonth} activeYear={activeYear}/>
           </div>
         </Col>
         <Col

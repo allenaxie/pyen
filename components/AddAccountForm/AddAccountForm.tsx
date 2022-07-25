@@ -22,7 +22,6 @@ const AddAccountForm = (props: AddAcountFormProps) => {
 
 
     const handleSubmit = async (values: any) => {
-        console.log(values);
         setIsLoading(true);
         // add current session user to req.body
         values.userId = session?.user?.id;

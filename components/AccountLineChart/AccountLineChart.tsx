@@ -22,10 +22,20 @@ import {
     Legend
     );
 
-const AccountLineChart = ({lineChartData}:any) => {
+const AccountLineChart = ({lineChartData, activeMonth, activeYear}:any) => {
 
     const options = {
-        maintainAspectRatio: false	// Don't maintain w/h ratio
+        maintainAspectRatio: false,	// Don't maintain w/h ratio
+        plugins: {
+            title: {
+                display: true,
+                text: `${activeYear}`,
+                padding: {
+                    top: 10,
+                    bottom: 30
+                }
+            }
+        }
       }
   
     return (

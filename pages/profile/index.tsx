@@ -18,8 +18,11 @@ const ProfilePage = (props: ProfilePageProps) => {
     const [currentAccountItem, setCurrentAccountItem] = useState({});
     const [netWorth, setNetWorth] = useState(0);
     const [editForm] = Form.useForm();
-    const [lineChartLabels, setLineChartLabels] = useState<string[]>([]);
-    const [lineChartData, setLineChartData] = useState({
+    // const [lineChartLabels, setLineChartLabels] = useState<string[]>([]);
+    const [lineChartLabels, setLineChartLabels] = useState([]);
+    const [activeMonth, setActiveMonth] = useState(7);
+    const [activeYear, setActiveYear] = useState('2022');
+    const [lineChartData, setLineChartData] = useState<{}>({
         labels: [],
         datasets: [{
             label: 'Account Value',
@@ -27,8 +30,7 @@ const ProfilePage = (props: ProfilePageProps) => {
             backgroundColor: ["rgba(75,192,192,1"]
         }],
     });
-    const [activeMonth, setActiveMonth] = useState(7);
-    const [activeYear, setActiveYear] = useState('2022');
+
 
     useEffect(() => {
         const getUserAccountItems = async () => {
@@ -39,11 +41,11 @@ const ProfilePage = (props: ProfilePageProps) => {
 
 
                 // table data
-                let filteredTableData = data.filter((item:any) => 
-                {
-                    if(item.month == activeMonth && item.year == activeYear) {
-                    return item
-                }}
+                let filteredTableData = data.filter((item: any) => {
+                    if (item.month == activeMonth && item.year == activeYear) {
+                        return item
+                    }
+                }
                 )
                 setUserAccountItems(filteredTableData);
 
@@ -55,19 +57,56 @@ const ProfilePage = (props: ProfilePageProps) => {
 
                 // update chart
                 // make copy of data to sort array by date
-                const dataCopy = data.filter((item:any) => item.year == activeYear)
-                dataCopy.sort((a:any,b:any) => a.month - b.month || a.year - b.year);
+                const dataCopy = data.filter((item: any) => item.year == activeYear);
+                dataCopy.sort((a: any, b: any) => a.month - b.month || a.year - b.year);
                 // get date from data
-                let labels = dataCopy?.map((item: any) => {
+                let chartLabels = dataCopy?.map((item: any) => {
                     return `${item.month}/${item.year}`
                 });
+                // filter out dupe dates
+                const labelSet: any = [... new Set(chartLabels)];
+
+                // data with aggregrate values for dupe dates
+                const resultObject: any[] = [];
+                dataCopy.map((item: any) => {
+                    // if resultObject has items in it
+                    if (resultObject.length > 0) {
+                        // if any object in resultObject has same month and year
+                        if (resultObject.some((obj) => (obj.month == item.month && obj.year == item.year))) {
+                            // duplicate month/year exists
+                            // find object with same month/year
+                            resultObject.find((obj) => {
+                                if (obj.month == item.month && obj.year == item.year) {
+                                    // aggregate values for the month/year
+                                    obj.value += item.value;
+                                }
+                            })
+                        } else {
+                            // no duplicate object- add object
+                            resultObject.push({
+                                name: item.name,
+                                month: item.month,
+                                year: item.year,
+                                value: item.value,
+                            })
+                        }
+                    } else {
+                        resultObject.push({
+                            name: item.name,
+                            month: item.month,
+                            year: item.year,
+                            value: item.value,
+                        })
+                    }
+                });
+                
                 // update chart label and data
-                setLineChartLabels(labels);
+                setLineChartLabels(labelSet);
                 setLineChartData({
-                    labels: labels,
+                    labels: labelSet,
                     datasets: [{
                         label: 'Account Value',
-                        data: dataCopy.map((item: any) => item.value),
+                        data: resultObject.map((item: any) => item.value),
                         backgroundColor: ["rgba(75,192,192,1"]
                     }],
                 })
@@ -78,7 +117,6 @@ const ProfilePage = (props: ProfilePageProps) => {
         getUserAccountItems();
     }, [updateAccountItems])
 
-    console.log('userAccountItems', userAccountItems);
     useEffect(() => {
         // reset form initial values
         editForm.resetFields();
