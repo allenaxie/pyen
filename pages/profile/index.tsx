@@ -18,7 +18,6 @@ const ProfilePage = (props: ProfilePageProps) => {
     const [currentAccountItem, setCurrentAccountItem] = useState({});
     const [netWorth, setNetWorth] = useState(0);
     const [editForm] = Form.useForm();
-    // const [lineChartLabels, setLineChartLabels] = useState<string[]>([]);
     const [lineChartLabels, setLineChartLabels] = useState([]);
     const [activeMonth, setActiveMonth] = useState(7);
     const [activeYear, setActiveYear] = useState('2022');
@@ -31,7 +30,6 @@ const ProfilePage = (props: ProfilePageProps) => {
         }],
     });
 
-
     useEffect(() => {
         const getUserAccountItems = async () => {
             try {
@@ -39,14 +37,12 @@ const ProfilePage = (props: ProfilePageProps) => {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
                 const { data } = await res.json();
 
-
                 // table data
                 let filteredTableData = data.filter((item: any) => {
                     if (item.month == activeMonth && item.year == activeYear) {
                         return item
                     }
-                }
-                )
+                })
                 setUserAccountItems(filteredTableData);
 
                 // calculate net worth
@@ -99,7 +95,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                         })
                     }
                 });
-                
+
                 // update chart label and data
                 setLineChartLabels(labelSet);
                 setLineChartData({

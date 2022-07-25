@@ -83,16 +83,6 @@ const Profile = ({
         </>
       )
     },
-    // {
-    //   title: 'Date',
-    //   dataIndex: 'date',
-    //   key: 'date',
-    //   render: (value: any) => (
-    //     <>
-    //       <span>{value.toLocaleString('en-US', { month: 'short' })}</span>
-    //     </>
-    //   )
-    // },
     {
       title: 'Actions',
       key: 'actions',
