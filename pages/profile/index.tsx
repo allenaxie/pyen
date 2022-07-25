@@ -12,7 +12,7 @@ interface ProfilePageProps {
 
 const ProfilePage = (props: ProfilePageProps) => {
     const { accounts } = props;
-    const [isLoading, setIsLoading] = useState(false);
+    const [accountsDataLoading, setAccountsDataLoading] = useState(false);
     const { data: session } = useSession();
     const [userAccountItems, setUserAccountItems] = useState([]);
     const [updateAccountItems, setUpdateAccountItems] = useState(-1);
@@ -34,12 +34,13 @@ const ProfilePage = (props: ProfilePageProps) => {
     useEffect(() => {
         const getUserAccountItems = async () => {
             try {
-
-                setIsLoading(true);
+                console.log('update account items')
+                setAccountsDataLoading(true);
 
                 // get new data
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
                 const { data } = await res.json();
+                setAccountsDataLoading(false);
 
                 // table data
                 let filteredTableData = data.filter((item: any) => {
@@ -110,7 +111,6 @@ const ProfilePage = (props: ProfilePageProps) => {
                         backgroundColor: ["rgba(75,192,192,1"]
                     }],
                 });
-                setIsLoading(false);
             } catch (err) {
                 console.log(err);
             }
@@ -125,27 +125,23 @@ const ProfilePage = (props: ProfilePageProps) => {
 
     return (
         <>
-            {isLoading ? 
-            <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100vh"}}>
-                <Spin/>
-            </div>
-            :
-            <Profile
-                userAccountItems={userAccountItems}
-                setUserAccountItems={setUserAccountItems}
-                setUpdateAccountItems={setUpdateAccountItems}
-                updateAccountItems={updateAccountItems}
-                setCurrentAccountItem={setCurrentAccountItem}
-                editForm={editForm}
-                currentAccountItem={currentAccountItem}
-                netWorth={netWorth}
-                lineChartData={lineChartData}
-                activeMonth={activeMonth}
-                setActiveMonth={setActiveMonth}
-                activeYear={activeYear}
-                setActiveYear={setActiveYear}
-            />
-            }
+            <Spin spinning={accountsDataLoading}>
+                <Profile
+                    userAccountItems={userAccountItems}
+                    setUserAccountItems={setUserAccountItems}
+                    setUpdateAccountItems={setUpdateAccountItems}
+                    updateAccountItems={updateAccountItems}
+                    setCurrentAccountItem={setCurrentAccountItem}
+                    editForm={editForm}
+                    currentAccountItem={currentAccountItem}
+                    netWorth={netWorth}
+                    lineChartData={lineChartData}
+                    activeMonth={activeMonth}
+                    setActiveMonth={setActiveMonth}
+                    activeYear={activeYear}
+                    setActiveYear={setActiveYear}
+                />
+            </Spin>
         </>
     )
 }

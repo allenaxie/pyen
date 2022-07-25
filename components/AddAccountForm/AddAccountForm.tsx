@@ -1,7 +1,8 @@
 import classes from './AddAccountForm.module.scss';
-import { Form, Input, InputNumber, Button, DatePicker } from 'antd';
+import { Form, Input, InputNumber, Button, DatePicker, Spin } from 'antd';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {useRouter} from 'next/router';
+import moment from 'moment';
 
 interface AddAcountFormProps {
     setAccountFormModalVisible: Dispatch<SetStateAction<boolean>>,
@@ -64,6 +65,9 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             wrapperCol={{
                 span:16
             }}
+            initialValues={{
+                date: moment()
+            }}
             scrollToFirstError
         >
             {/* Date */}
@@ -113,7 +117,9 @@ const AddAccountForm = (props: AddAcountFormProps) => {
             <Form.Item
                 className={classes.submitBtn}
             >
-                <Button type="primary" htmlType="submit">Create Account</Button>
+                <Spin spinning={isLoading}>
+                    <Button type="primary" htmlType="submit">Create Account</Button>
+                </Spin>
             </Form.Item>
         </Form>
     )

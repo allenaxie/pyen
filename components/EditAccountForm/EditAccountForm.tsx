@@ -1,7 +1,8 @@
 import classes from './EditAccountForm.module.scss';
-import { Form, Input, InputNumber, Button, Spin } from 'antd';
+import { Form, Input, InputNumber, Button, Spin, DatePicker } from 'antd';
 import { useState, Dispatch, SetStateAction } from 'react';
 import {useRouter} from 'next/router';
+import moment from 'moment';
 
 interface EditAccountFormProps {
     setEditFormModalVisible : Dispatch<SetStateAction<boolean>>,
@@ -63,11 +64,22 @@ const EditAccountForm = (props: EditAccountFormProps) => {
                 span:16
             }}
             initialValues = {{
+                date: moment(),
                 name: `${currentAccountItem.name}`,
                 value: currentAccountItem.value,
             }}
             scrollToFirstError
         >
+            {/* Date */}
+            <Form.Item
+                label={<span className={classes.formLabel}>Month/Year</span>}
+                name="date"
+                rules={[
+                    {required: true, message: 'Please select a date'}
+                ]}
+            >
+                <DatePicker picker="month" />
+            </Form.Item>
             {/* Name */}
             <Form.Item
                 label={<span className={classes.formLabel}>Name</span>}
@@ -108,15 +120,11 @@ const EditAccountForm = (props: EditAccountFormProps) => {
                 className={classes.submitBtn}
                 key="submitBtn"
             >
-                <Button type="primary" htmlType="submit">
-                    {isLoading ?
-                    <Spin/>
-                    :    
-                    <>
-                        Update Account
-                    </>   
-                }
-                </Button>
+                <Spin spinning={isLoading}>
+                    <Button type="primary" htmlType="submit">
+                            Update Account
+                    </Button>
+                </Spin>
             </Form.Item>
         </Form>
     )
