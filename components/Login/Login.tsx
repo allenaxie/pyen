@@ -42,7 +42,6 @@ const Login = ({ providers }: any) => {
               >
                 <button 
                 onClick={() => signIn((provider as any).id, {
-                  // callbackUrl: `${window.location.origin}`,
                   callbackUrl: `${process.env.NEXT_PUBLIC_SERVER}`,
                 })}>
                   Sign In with 

@@ -2,6 +2,7 @@ import { Profile } from '../../components/index';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Form, Spin } from 'antd';
+import moment from 'moment';
 
 const ProfilePage = () => {
     const [accountsDataLoading, setAccountsDataLoading] = useState(false);
@@ -12,7 +13,7 @@ const ProfilePage = () => {
     const [netWorth, setNetWorth] = useState(0);
     const [editForm] = Form.useForm();
     const [lineChartLabels, setLineChartLabels] = useState([]);
-    const [activeMonth, setActiveMonth] = useState(7);
+    const [activeMonth, setActiveMonth] = useState(parseInt(moment().format().split('-')[1]));
     const [activeYear, setActiveYear] = useState('2022');
     const [lineChartData, setLineChartData] = useState<{}>({
         labels: [],
@@ -26,7 +27,6 @@ const ProfilePage = () => {
     useEffect(() => {
         const getUserAccountItems = async () => {
             try {
-                console.log('update account items')
                 setAccountsDataLoading(true);
 
                 // get new data

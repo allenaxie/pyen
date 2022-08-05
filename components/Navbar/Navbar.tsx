@@ -35,18 +35,18 @@ const Navbar = () => {
                     </>
                 ),
             },
-            {
-                key: "settings",
-                className: `${classes.userMenuItem}`,
-                label: (
-                    <>
-                        <IoSettingsOutline />
-                        <span>
-                            Settings
-                        </span>
-                    </>
-                )
-            },
+            // {
+            //     key: "settings",
+            //     className: `${classes.userMenuItem}`,
+            //     label: (
+            //         <>
+            //             <IoSettingsOutline />
+            //             <span>
+            //                 Settings
+            //             </span>
+            //         </>
+            //     )
+            // },
             {
                 key: "signOut",
                 onClick: () => signOut({

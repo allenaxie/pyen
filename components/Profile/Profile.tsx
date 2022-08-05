@@ -102,7 +102,7 @@ const Profile = ({
             danger
             onClick={() => handleAccountItemDelete(record)}
           >
-            <IoCloseCircleSharp className={classes.removeSVG}/>
+            <IoCloseCircleSharp className={classes.removeSVG} />
           </Button>
         </>
     }
@@ -120,6 +120,46 @@ const Profile = ({
     setUpdateAccountItems(updateAccountItems * -1);
   }
 
+  const handleImportAccounts = async () => {
+    try {
+      // get accounts from previous month
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem?user=${session?.user?.id}`,);
+      const { data } = await res.json();
+
+      // filter data by month and year
+      const filteredData = data.filter((item:any) => (item.month === (activeMonth - 1) && item.year === parseInt(activeYear)));
+      // copy data and change month
+      const copyData = filteredData.map((item:any) => {
+        // change month
+        const splitDate = item.date.split('-');
+        activeMonth < 10 ? splitDate[1] = `0${activeMonth}`: splitDate[1] = activeMonth;
+        const newDate = splitDate.join('-');
+      
+        return {
+          // set values similar to addAccountForm
+          date: newDate,
+          name: item.name,
+          value: item.value,
+          userId: item.userId,
+        }
+      });
+
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/accountItem`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(copyData)
+      })
+      // rerender data
+      setUpdateAccountItems(updateAccountItems * -1);
+
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <Row className={classes.container}>
@@ -132,7 +172,7 @@ const Profile = ({
             <h1>Net worth:</h1>
             <span>${netWorth.toLocaleString()}</span>
           </div>
-          <Row>
+          {/* <Row>
             <Col
               xs={{ span: 24 }}
               md={{ span: 12 }}
@@ -145,7 +185,7 @@ const Profile = ({
             >
               <div>Average per month:</div>
             </Col>
-          </Row>
+          </Row> */}
         </Col>
         <Col
           xs={{ span: 24 }}
@@ -164,7 +204,7 @@ const Profile = ({
               xs={{ span: 24 }}
               lg={{ span: 6 }}
             >
-              <Image src={session ? `${session?.user?.image}` : 'https://joeschmoe.io/api/v1/random'} width={100} height={100} alt="avatarImg"/>
+              <Image src={session ? `${session?.user?.image}` : 'https://joeschmoe.io/api/v1/random'} width={100} height={100} alt="avatarImg" />
             </Col>
           </Row>
         </Col>
@@ -176,7 +216,7 @@ const Profile = ({
           className={classes.chartContainer}
         >
           <div>
-            <AccountLineChart lineChartData={lineChartData} activeMonth={activeMonth} activeYear={activeYear}/>
+            <AccountLineChart lineChartData={lineChartData} activeMonth={activeMonth} activeYear={activeYear} />
           </div>
         </Col>
         <Col
@@ -209,15 +249,23 @@ const Profile = ({
                     tab={item}
                     className={classes.monthsTabPane}
                   >
-                    <div>
-                      <h2>Net worth: ${netWorth.toLocaleString()}</h2>
-                    </div>
-                    <Table
-                      columns={accountListColumns}
-                      dataSource={userAccountItems}
-                      pagination={{ pageSize: 5 }}
-                      rowKey={(item) => item.id}
-                    />
+                    {userAccountItems.length > 0 ?
+                      <>
+                        <div>
+                          <h2>Value: ${netWorth.toLocaleString()}</h2>
+                        </div>
+                        <Table
+                          columns={accountListColumns}
+                          dataSource={userAccountItems}
+                          pagination={{ pageSize: 5 }}
+                          rowKey={(item) => item.id}
+                        />
+                      </>
+                      :
+                      <>
+                        <button onClick={handleImportAccounts}>Import previous month accounts</button>
+                      </>
+                    }
                   </TabPane>
                 ))}
               </Tabs>
