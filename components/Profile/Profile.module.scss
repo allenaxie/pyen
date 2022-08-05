@@ -1,5 +1,3 @@
-
-
 .statsContainer {
     padding: 3rem 2rem 3rem 8rem;
 }
@@ -25,6 +23,14 @@
     padding: 3rem 8rem 3rem 2rem;
 }
 
+.monthTabs {
+    :global .ant-tabs-content-holder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 .chartContainer {
     display: flex;
     justify-content: center;
@@ -41,6 +47,7 @@
 
 .accountListHeader {
     padding: 1rem;
+    height: 100%;
 }
 
 .accountListYear {
@@ -113,4 +120,30 @@
 .removeSVG {
     color: #fff;
     font-size: 1.2rem;
+}
+
+.importAccountsBtnContainer {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        height: 2rem;
+            border: none;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            background-color: rgb(82, 186, 255);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+    
+            &:hover {
+                background-color: rgb(58, 173, 249);
+                box-shadow: 2px 2px 6px rgba(42, 42, 42, 0.3);
+            }
+    }
 }
