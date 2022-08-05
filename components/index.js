@@ -5,3 +5,4 @@ export {default as Profile} from './Profile/Profile';
 export {default as EditAccountForm} from './EditAccountForm/EditAccountForm';
 export {default as AddAccountForm} from './AddAccountForm/AddAccountForm'
 export {default as AccountLineChart} from './AccountLineChart/AccountLineChart';
+export {default as Footer} from './Footer/Footer';
