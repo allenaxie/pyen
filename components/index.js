@@ -6,3 +6,4 @@ export {default as EditAccountForm} from './EditAccountForm/EditAccountForm';
 export {default as AddAccountForm} from './AddAccountForm/AddAccountForm'
 export {default as AccountLineChart} from './AccountLineChart/AccountLineChart';
 export {default as Footer} from './Footer/Footer';
+export {default as ContactForm} from './ContactForm/ContactForm';
