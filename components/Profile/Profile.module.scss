@@ -1,26 +1,37 @@
 .statsContainer {
-    padding: 3rem 2rem 3rem 8rem;
+    // padding: 3rem 2rem 3rem 8rem;
+    padding: 3rem;
+
+    @media only screen and (max-width: 992px) {
+        padding: 2rem 1rem 0 1rem;
+    }
 }
 
 .netWorthTitle {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    width: 60%;
+    justify-content: center;
+    width: 100%;
     margin-bottom: 2rem;
 
     h1 {
         margin-bottom: 0;
         font-size: 1.5rem;
+        margin-right: 1rem;
     }
 
     span {
         font-size: 1.5rem;
+
     }
 }
 
 .profileInfoContainer {
     padding: 3rem 8rem 3rem 2rem;
+    
+    @media only screen and (max-width: 992px) {
+        padding: 2rem;
+    }
 }
 
 .monthTabs {
@@ -136,14 +147,16 @@
             justify-content: center;
             align-items: center;
     
-            background-color: rgb(82, 186, 255);
+            background-color: rgb(12, 128, 181);
             color: #fff;
             font-size: 1.3rem;
             cursor: pointer;
+            transition: all .3s ease-in-out;
     
             &:hover {
-                background-color: rgb(58, 173, 249);
+                background-color: rgb(0, 122, 178);
                 box-shadow: 2px 2px 6px rgba(42, 42, 42, 0.3);
+                transform: translateY(-5px);
             }
     }
 }
