@@ -1,14 +1,12 @@
 import classes from './ContactForm.module.scss';
-import { BsMailbox } from 'react-icons/bs';
 import { useForm } from '@formspree/react';
 import { Form, Input, Result } from 'antd';
 
 const ContactForm = () => {
-    ;
+    
     const { TextArea } = Input;
     const [state, handleSubmit] = useForm("mvoypnwa");
     if (state.succeeded) {
-        console.log('success')
         return (
             <Result
                 status="success"
@@ -66,7 +64,6 @@ const ContactForm = () => {
                         xs: { span: 24 },
                     }}
                     className={classes.btnContainer}
-
                 >
                     <button type="submit" className={classes.submitBtn}>
                         Get In Touch

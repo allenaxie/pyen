@@ -11,8 +11,8 @@ const Header = () => {
             className={classes.textContainer}
             >
                 <div>Track all your assets <br/> in <span>one</span> place</div>
-                <button>Get started</button>
-                <p>#1 personal financial application</p>
+                <button className={classes.ctaBtn}>Get started</button>
+                <p> #1 <span>personal</span> financial application</p>
             </Col>
             <Col
                 xs={{span:24}}
