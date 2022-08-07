@@ -1,5 +1,5 @@
 import { Table, Row, Col } from "antd";
-import classes from './ipoCalendar.module.scss';
+import classes from '../../../styles/ipoCalendar.module.scss';
 
 const IPOCalendarPage = ({ upcomingIPO }: any) => {
 
