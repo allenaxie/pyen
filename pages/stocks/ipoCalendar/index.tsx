@@ -81,14 +81,15 @@ const IPOCalendarPage = ({ upcomingIPO }: any) => {
 
 export default IPOCalendarPage;
 
-export async function getStaticProps(context: any) {
+export async function getStaticProps() {
+
     const res = await fetch('https://upcoming-ipo-calendar.p.rapidapi.com/ipo-calendar', {
         method: 'GET',
         headers: {
             'X-RapidAPI-Key': `${process.env.X_RapidAPI_Key}`,
             'X-RapidAPI-Host': `${process.env.X_RapidAPI_Host}`,
         }
-    })
+    });
     const { data } = await res.json();
 
     return {

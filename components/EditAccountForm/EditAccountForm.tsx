@@ -64,7 +64,6 @@ const EditAccountForm = (props: EditAccountFormProps) => {
                 span:16
             }}
             initialValues = {{
-                date: moment(),
                 name: `${currentAccountItem.name}`,
                 value: currentAccountItem.value,
             }}
