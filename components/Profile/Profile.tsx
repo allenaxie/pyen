@@ -263,7 +263,7 @@ const Profile = ({
                       </>
                       :
                       <div className={classes.importAccountsBtnContainer}>
-                        <button onClick={handleImportAccounts}><span>Import previous month's accounts</span></button>
+                        <button onClick={handleImportAccounts}><span>Import previous month&apos;s accounts</span></button>
                       </div>
                     }
                   </TabPane>
