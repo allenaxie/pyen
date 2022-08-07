@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const [editForm] = Form.useForm();
     const [lineChartLabels, setLineChartLabels] = useState([]);
     const [activeMonth, setActiveMonth] = useState(parseInt(moment().format().split('-')[1]));
-    const [activeYear, setActiveYear] = useState('2022');
+    const [activeYear, setActiveYear] = useState(parseInt(moment().format().split('-')[0]));
     const [lineChartData, setLineChartData] = useState<{}>({
         labels: [],
         datasets: [{
