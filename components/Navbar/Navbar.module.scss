@@ -19,7 +19,20 @@
     font-size: 1.5rem;
     letter-spacing: 3px;
     text-transform: uppercase;
+}
 
+.mainContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.stocksLink {
+    cursor: pointer;
+}
+
+.links {
+    margin-right: 2rem;
 }
 
 .userAvatar {

@@ -79,6 +79,20 @@ const Navbar = () => {
             }
         ]
 
+    const stockMenuItems = [
+        {
+            key: "ipoCalendar",
+            className: `${classes.stockMenuItem}`,
+            label: (
+                <>
+                <Link href='/stocks/ipoCalendar'>
+                    IPO Calendar
+                </Link>
+                </>
+            )
+        }
+    ]
+
     return (
         <div className={classes.container}>
             <div
@@ -88,18 +102,34 @@ const Navbar = () => {
                     Pyen
                 </Link>
             </div>
-            <div className={classes.userAvatar}>
-                <Dropdown
-                    overlay={
-                        <>
-                            <Menu className={classes.menu} items={menuItems} />
-                        </>
-                    }
-                    placement="bottomRight"
-                    arrow={true}
-                >
-                    <Avatar src="https://joeschmoe.io/api/v1/random" />
-                </Dropdown>
+            <div className={classes.mainContent}>
+                <div className={classes.links}>
+                    <Dropdown
+                        overlay={
+                            <>
+                                <Menu className={classes.stocksMenu} items={stockMenuItems} />
+                            </>
+                        }
+                        placement="bottomRight"
+                        className={classes.stocksLink}
+                        arrow={true}
+                    >
+                        <span>Stocks</span>
+                    </Dropdown>
+                </div>
+                <div className={classes.userAvatar}>
+                    <Dropdown
+                        overlay={
+                            <>
+                                <Menu className={classes.menu} items={menuItems} />
+                            </>
+                        }
+                        placement="bottomRight"
+                        arrow={true}
+                    >
+                        <Avatar src="https://joeschmoe.io/api/v1/random" />
+                    </Dropdown>
+                </div>
             </div>
         </div>
     )
