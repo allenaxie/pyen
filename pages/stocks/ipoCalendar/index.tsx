@@ -53,27 +53,31 @@ const IPOCalendarPage = ({ upcomingIPO }: any) => {
             key: 'marketCap',
             render: (text: number) => (
                 <div>
-                {text ?
-                    <div>
-                        ${text.toLocaleString()}
-                    </div>
-                    :
-                    <div>N/A</div>
-                }
+                    {text ?
+                        <div>
+                            ${text.toLocaleString()}
+                        </div>
+                        :
+                        <div>N/A</div>
+                    }
 
-            </div>
-                )
+                </div>
+            )
         }
     ]
 
     return (
         <Row>
             <Col
-                xs={{span: 24}}
+                xs={{ span: 24 }}
                 className={classes.container}
             >
                 <h1>IPO Calendar</h1>
-                <Table columns={columns} dataSource={upcomingIPO} />
+                <Table
+                    columns={columns}
+                    dataSource={upcomingIPO}
+                    rowKey={item => item.symbol}
+                />
             </Col>
         </Row>
     )

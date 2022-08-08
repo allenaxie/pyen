@@ -81,6 +81,17 @@ const Navbar = () => {
 
     const stockMenuItems = [
         {
+            key: "stocksList",
+            className: `${classes.stockMenuItem}`,
+            label: (
+                <>
+                <Link href='/stocks'>
+                    Stocks List
+                </Link>
+                </>
+            )
+        },
+        {
             key: "ipoCalendar",
             className: `${classes.stockMenuItem}`,
             label: (
