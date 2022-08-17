@@ -6,6 +6,7 @@ const ContactForm = () => {
     
     const { TextArea } = Input;
     const [state, handleSubmit] = useForm("mvoypnwa");
+
     if (state.succeeded) {
         return (
             <Result
@@ -31,7 +32,8 @@ const ContactForm = () => {
                 onFinish={handleSubmit}
                 className={classes.form}
                 wrapperCol={{
-                    xs: { span: 18 },
+                    xs: { span: 22 },
+                    lg: { span: 14 },
                 }}
                 validateMessages={validateMessages}
             >

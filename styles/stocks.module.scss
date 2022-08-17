@@ -1,5 +1,13 @@
+.container {
+    padding: 3rem;
+}
+
 .dropdownItemsContainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+}
+
+.cardContainer {
+    margin: 8rem 0 0 0;
 }

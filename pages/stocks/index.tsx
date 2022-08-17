@@ -1,4 +1,4 @@
-import { Row, Col, Input, Menu, Dropdown } from 'antd';
+import { Row, Col, Input, Menu, Dropdown, Card } from 'antd';
 import { useState, useEffect } from 'react';
 import classes from '../../styles/stocks.module.scss';
 
@@ -6,15 +6,20 @@ const StocksPage = () => {
     const { Search } = Input;
 
     const [symbolData, setSymbolData] = useState([]);
+    const [activeSymbol, setActiveSymbol] = useState<any>({});
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [symbolInput, setSymbolInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    // everytime symbol data changes
     useEffect(() => {
-        console.log(symbolData);
-    }, [symbolData])
+      console.log(activeSymbol);
+    }, [activeSymbol])
+    
 
     const handleSymbolSearch = async (e: any) => {
         // if input greater than 2 characters, fetch best match symbol
         const input = e.target.value;
+        setSymbolInput(input);
         if (input.length > 2) {
             try {
                 const res = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${input}&apikey=${process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY}`);
@@ -26,22 +31,43 @@ const StocksPage = () => {
                             return item;
                         }
                     });
-                    console.log('filteredMatches: ', filteredMatches);
                     setSymbolData(filteredMatches);
+                    filteredMatches.length > 0 ? setDropdownVisible(true) : setDropdownVisible(false);
                 }
             } catch (err) {
                 console.log(err);
             }
         } else {
             setSymbolData([]);
+            setActiveSymbol({});
+            setDropdownVisible(false);
+        }
+    }
+
+    console.log('symbolInput: ', symbolInput);
+
+    const handleMenuClick = async (e: any) => {
+        try {
+            const ticker = e.keyPath[0].split('-')[1];
+            setIsLoading(true);
+            const res = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY}`)
+            const data = await res.json();
+            console.log(data);
+            setActiveSymbol(data["Global Quote"]);
+            // close menu
+            setDropdownVisible(false);
+            setSymbolInput('');
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
         }
     }
 
     const tickerDropdown = (
         <Row justify='center'>
             <Col
-                xs={{span:24}}
-                lg={{span:12}}
+                xs={{ span: 24 }}
+                lg={{ span: 12 }}
             >
                 <Menu
                     items={symbolData.map((item: any, index: number) => (
@@ -55,19 +81,21 @@ const StocksPage = () => {
                             key: `${index}-${item['1. symbol']}`,
                         }
                     ))}
+                    onClick={handleMenuClick}
                 />
             </Col>
         </Row>
     )
 
+    console.log('activeSymbol:', activeSymbol);
+
     return (
-        <>
-            Stocks
+        <div className={classes.container}>
             <Dropdown
                 overlay={tickerDropdown}
                 placement="bottomLeft"
                 arrow
-                visible={symbolData.length > 0 ? true : false}
+                visible={dropdownVisible}
             >
                 <Row
                     justify='center'
@@ -76,14 +104,31 @@ const StocksPage = () => {
                         xs={{ span: 24 }}
                         lg={{ span: 16 }}
                     >
-                        <Search placeholder="Search ticker symbol" onChange={handleSymbolSearch} />
+                        <Search placeholder="Search ticker symbol" onChange={handleSymbolSearch} maxLength={6} value={symbolInput} />
                     </Col>
                 </Row>
             </Dropdown>
-            <span>
-                {symbolData && symbolData.length}
-            </span>
-        </>
+
+            {activeSymbol && Object.keys(activeSymbol).length > 0 && 
+                <Row justify='center' className={classes.cardContainer}>
+                    <Col
+                        xs={{ span: 22 }}
+                        lg={{ span: 16 }}
+                    >
+                        <Card>
+                            {activeSymbol['01. symbol']} <br/>
+                            {activeSymbol['07. latest trading day']} <br/>
+                            ${activeSymbol['05. price']} <br/>
+                            {parseInt(activeSymbol['06. volume']).toLocaleString()} <br/>
+                            {activeSymbol['08. previous close']} <br/>
+                            {activeSymbol['10. change percent']} <br/>
+                            {activeSymbol['09. change']} <br/>
+                        </Card>
+                    </Col>
+                </Row>
+                
+            }
+        </div>
     )
 }
 
