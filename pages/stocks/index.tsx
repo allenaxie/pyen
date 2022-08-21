@@ -12,9 +12,9 @@ const StocksPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-      console.log(activeSymbol);
+        console.log(activeSymbol)
     }, [activeSymbol])
-    
+
 
     const handleSymbolSearch = async (e: any) => {
         // if input greater than 2 characters, fetch best match symbol
@@ -44,15 +44,12 @@ const StocksPage = () => {
         }
     }
 
-    console.log('symbolInput: ', symbolInput);
-
     const handleMenuClick = async (e: any) => {
         try {
             const ticker = e.keyPath[0].split('-')[1];
             setIsLoading(true);
             const res = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY}`)
             const data = await res.json();
-            console.log(data);
             setActiveSymbol(data["Global Quote"]);
             // close menu
             setDropdownVisible(false);
@@ -87,8 +84,6 @@ const StocksPage = () => {
         </Row>
     )
 
-    console.log('activeSymbol:', activeSymbol);
-
     return (
         <div className={classes.container}>
             <Dropdown
@@ -109,24 +104,87 @@ const StocksPage = () => {
                 </Row>
             </Dropdown>
 
-            {activeSymbol && Object.keys(activeSymbol).length > 0 && 
+            {activeSymbol && Object.keys(activeSymbol).length > 0 &&
                 <Row justify='center' className={classes.cardContainer}>
                     <Col
                         xs={{ span: 22 }}
                         lg={{ span: 16 }}
                     >
                         <Card>
-                            {activeSymbol['01. symbol']} <br/>
-                            {activeSymbol['07. latest trading day']} <br/>
-                            ${activeSymbol['05. price']} <br/>
-                            {parseInt(activeSymbol['06. volume']).toLocaleString()} <br/>
-                            {activeSymbol['08. previous close']} <br/>
-                            {activeSymbol['10. change percent']} <br/>
-                            {activeSymbol['09. change']} <br/>
+                            <Row>
+                                <Col xs={{ span: 12 }} lg={{ span: 6 }}>
+                                    <div className={classes.statsItem}>
+                                        <span className={classes.statsLabel}>
+                                            Symbol:
+                                        </span>
+                                        <div>
+                                            {activeSymbol['01. symbol']} <br />
+                                        </div>
+                                    </div>
+                                    <div className={classes.stats2ndRow}>
+                                        <span className={classes.statsLabel}>
+                                            Latest Trading Day:
+                                        </span>
+                                        <div>
+                                            {activeSymbol['07. latest trading day']}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col xs={{ span: 12 }} lg={{ span: 6 }}>
+                                    <div className={classes.statsItem}>
+                                        <span className={classes.statsLabel}>
+                                            Price:
+                                        </span>
+                                        <div>
+                                            ${activeSymbol['05. price']} <br />
+                                        </div>
+                                    </div>
+                                    <div className={classes.stats2ndRow}>
+                                        <span className={classes.statsLabel}>
+                                            Volume:
+                                        </span>
+                                        <div>
+                                            {parseInt(activeSymbol['06. volume']).toLocaleString()}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col xs={{ span: 12 }} lg={{ span: 6 }}>
+                                    <div className={classes.statsItem}>
+                                        <span className={classes.statsLabel}>
+                                            Previous Close:
+                                        </span>
+                                        <div>
+                                            ${parseInt(activeSymbol['08. previous close']).toFixed(2)} <br />
+                                        </div>
+                                    </div>
+                                    <div className={classes.stats2ndRow}>
+                                        <span className={classes.statsLabel}>
+                                            Change:
+                                        </span>
+                                        <div >
+                                            {activeSymbol['09. change']} <br />
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col xs={{ span: 12 }} lg={{ span: 6 }}>
+                                    <div className={classes.statsItem}>
+                                        <span className={classes.statsLabel}>
+                                            Percent Change:
+                                        </span>
+                                        <div >
+                                            {activeSymbol['10. change percent']} <br />
+                                        </div>
+                                    </div>
+                                    
+                                </Col>
+                            </Row>
+
+
+
                         </Card>
                     </Col>
                 </Row>
-                
+
             }
         </div>
     )

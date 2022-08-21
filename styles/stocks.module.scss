@@ -11,3 +11,17 @@
 .cardContainer {
     margin: 8rem 0 0 0;
 }
+
+.statsLabel {
+    font-weight: 600;
+}
+
+.stats2ndRow {
+    margin-top: 1rem;
+}
+
+.statsItem {
+    @media only screen and (max-width:992px) {
+        margin-top: 1rem;
+    }
+}
