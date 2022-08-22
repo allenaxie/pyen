@@ -1,7 +1,10 @@
 import { Table, Row, Col } from "antd";
 import classes from '../../../styles/ipoCalendar.module.scss';
+import millify from "millify";
 
 const IPOCalendarPage = ({ upcomingIPO }: any) => {
+
+    console.log(upcomingIPO);
 
     const columns = [
         {
@@ -45,7 +48,7 @@ const IPOCalendarPage = ({ upcomingIPO }: any) => {
             title: 'Shares Offered',
             dataIndex: 'sharesOffered',
             key: 'sharesOffered',
-            render: (text: number) => <span>{text.toLocaleString()}</span>
+            render: (text: number) => <span>{millify(text, {precision:2})}</span>
         },
         {
             title: 'Market Cap',
@@ -55,7 +58,7 @@ const IPOCalendarPage = ({ upcomingIPO }: any) => {
                 <div>
                     {text ?
                         <div>
-                            ${text.toLocaleString()}
+                            ${millify(text, {precision: 2})}
                         </div>
                         :
                         <div>N/A</div>
