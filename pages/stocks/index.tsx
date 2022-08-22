@@ -136,7 +136,7 @@ const StocksPage = () => {
                                             Price:
                                         </span>
                                         <div>
-                                            ${activeSymbol['05. price']} <br />
+                                            ${parseFloat(activeSymbol['05. price']).toFixed(2)} <br />
                                         </div>
                                     </div>
                                     <div className={classes.stats2ndRow}>
@@ -154,7 +154,7 @@ const StocksPage = () => {
                                             Previous Close:
                                         </span>
                                         <div>
-                                            ${parseInt(activeSymbol['08. previous close']).toFixed(2)} <br />
+                                            ${parseFloat(activeSymbol['08. previous close']).toFixed(2)} <br />
                                         </div>
                                     </div>
                                     <div className={classes.stats2ndRow}>
@@ -162,7 +162,7 @@ const StocksPage = () => {
                                             Change:
                                         </span>
                                         <div >
-                                            {activeSymbol['09. change']} <br />
+                                            {parseFloat(activeSymbol['09. change']).toFixed(2)} <br />
                                         </div>
                                     </div>
                                 </Col>
@@ -172,7 +172,7 @@ const StocksPage = () => {
                                             Percent Change:
                                         </span>
                                         <div >
-                                            {activeSymbol['10. change percent']} <br />
+                                            {parseFloat(activeSymbol['10. change percent']).toFixed(2)}% <br />
                                         </div>
                                     </div>
                                     
