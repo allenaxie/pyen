@@ -23,7 +23,7 @@ const ContactForm = () => {
     }
 
     return (
-        <>
+        <div className={classes.container}>
             <div className={classes.title}>
                 <h1>Contact Us</h1>
             </div>
@@ -72,7 +72,7 @@ const ContactForm = () => {
                     </button>
                 </Form.Item>
             </Form>
-        </>
+        </div>
     )
 }
 
