@@ -19,10 +19,6 @@ const EditAccountForm = (props: EditAccountFormProps) => {
 
     const router = useRouter();
 
-    // console.log({
-    //     currentAccountItem: currentAccountItem
-    // })
-
     const handleSubmit = async (values: any) => {
         try {
             setIsLoading(true);
