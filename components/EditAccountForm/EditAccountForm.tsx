@@ -7,7 +7,7 @@ import moment from 'moment';
 interface EditAccountFormProps {
     setEditFormModalVisible : Dispatch<SetStateAction<boolean>>,
     currentAccountItem: any,
-    setUpdateAccountItems: any,
+    setUpdateAccountItems: Dispatch<SetStateAction<number>>,
     updateAccountItems: number,
     editForm: any,
 }
@@ -18,6 +18,10 @@ const EditAccountForm = (props: EditAccountFormProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
+
+    // console.log({
+    //     currentAccountItem: currentAccountItem
+    // })
 
     const handleSubmit = async (values: any) => {
         try {
@@ -64,6 +68,7 @@ const EditAccountForm = (props: EditAccountFormProps) => {
                 span:16
             }}
             initialValues = {{
+                date: moment(currentAccountItem.date),
                 name: `${currentAccountItem.name}`,
                 value: currentAccountItem.value,
             }}
